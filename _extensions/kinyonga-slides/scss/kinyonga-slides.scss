@@ -1,0 +1,181 @@
+/*-- scss:defaults --*/
+@import "../tokens/tokens";
+@import "../shared/components";
+
+$presentation-font-size-root: 31px;
+$body-bg: $kn-white;
+$body-color: $kn-ink;
+$link-color: $kn-blue;
+$link-color-hover: $kn-blue-deep;
+$presentation-heading-font: $kn-font-heading, "Helvetica Neue", Arial, sans-serif;
+$font-family-sans-serif: $kn-font-body, "Helvetica Neue", Arial, sans-serif;
+$presentation-heading-color: $kn-ink;
+
+/*-- scss:rules --*/
+// Slide theme, 16:9. Type: Jost for titles and key numbers, Libre Franklin for text. Colour by role: ink for text,
+// one blue for the subject, orange only for what to notice (the highlight of a figure, a warning, a limit).
+// The brand tokens come from tokens/ (generated from brand.yml); this file never writes a colour of its own.
+// Components: .runhead (kicker pill), .split (two columns), .findings, .say (takeaway bar), .stats, .cards,
+// table.grid, .cap and .src (captions and sources), .title-box (cover), .divider, .closing.
+
+:root {
+  --blue: #{$kn-blue};
+  --blue-deep: #{$kn-blue-deep};
+  --blue-soft: #{$kn-blue-soft};
+  --orange: #{$kn-orange};
+  --orange-ink: #{$kn-orange-ink};
+  --orange-soft: #{$kn-orange-soft};
+  --ink: #{$kn-ink};
+  --ink-2: #{$kn-ink-2};
+  --ink-soft: #{$kn-slate};
+  --rule: #{$kn-rule};
+  --panel: #{$kn-panel};
+  --head: #{$kn-font-heading}, "Helvetica Neue", Arial, sans-serif;
+  --sans: #{$kn-font-body}, "Helvetica Neue", Arial, sans-serif;
+  // The accent of a slide: blue by default; .acc-orange switches the pill, the bullets and the bars to orange.
+  --acc: var(--blue);
+  --acc-ink: var(--blue-deep);
+  --acc-soft: var(--blue-soft);
+}
+.reveal .slides section.acc-blue { --acc: var(--blue); --acc-ink: var(--blue-deep); --acc-soft: var(--blue-soft); }
+.reveal .slides section.acc-orange { --acc: var(--orange); --acc-ink: var(--orange-ink); --acc-soft: var(--orange-soft); }
+
+.reveal-viewport { background: $kn-white; }
+.reveal { font-family: var(--sans); font-size: 31px; color: var(--ink); }
+.reveal .slides section { text-align: left; }
+.reveal p { line-height: 1.45; margin: 0.3em 0; }
+.reveal strong, .reveal b { font-weight: 600; color: var(--ink); }
+
+// Titles
+.reveal h2 {
+  font-family: var(--head); font-weight: 700; line-height: 1.16; color: var(--ink); letter-spacing: -0.01em;
+  text-transform: none; margin: 0 0 0.3em 0; max-width: 96%; font-size: 1.24em;
+}
+
+// Kicker below the title: an accent pill
+.runhead {
+  display: inline-block; font-size: 0.48em; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--acc-ink); background: var(--acc-soft); padding: 0.3em 0.8em; border-radius: 999px; margin: 0 0 0.9em 0;
+}
+.runhead b { font-weight: 700; }
+.tag {
+  display: inline-block; margin-left: 0.6em; padding: 0 0.5em; border: 1px solid var(--acc-ink);
+  border-radius: 999px; color: var(--acc-ink); letter-spacing: 0.08em;
+}
+
+// Bullets
+.reveal ul { list-style: none; margin: 0.15em 0 0 0; padding: 0; }
+.reveal ul li { position: relative; padding-left: 1em; margin: 0.42em 0; line-height: 1.4; }
+.reveal ul li::before {
+  content: ""; position: absolute; left: 0.05em; top: 0.55em; width: 0.36em; height: 0.36em;
+  background: var(--acc); border-radius: 50%;
+}
+
+// Two-column layout: figure and findings
+.split { display: grid; gap: 1.3em; align-items: start; }
+.split.f60 { grid-template-columns: 1.5fr 1fr; }
+.split.f66 { grid-template-columns: 2fr 1fr; }
+.split.f50 { grid-template-columns: 1fr 1fr; }
+.split.f40 { grid-template-columns: 1fr 1.25fr; }
+.split.mid { align-items: center; }
+.figrow { display: flex; gap: 0.8em; justify-content: center; align-items: flex-end; }
+.figrow > div { flex: 1; text-align: center; }
+
+// Findings list: plain rows with a key variant
+.findings { font-size: 0.7em; }
+.findings h4 {
+  font-family: var(--head); font-weight: 700; font-size: 0.82em; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--acc-ink); margin: 0 0 0.5em 0;
+}
+.findings .f { padding: 0.5em 0 0.5em 0.85em; border-left: 3px solid var(--rule); margin-bottom: 0.45em; line-height: 1.42; color: var(--ink-2); }
+.findings .f.key { border-left-color: var(--blue); }
+.findings .f b { color: var(--ink); }
+.findings .f .n { font-family: var(--head); font-weight: 700; color: var(--blue); font-size: 1.15em; }
+
+// Takeaway bar (shared with the book). The label comes from --kn-label.
+.say { @include kn-bar(var(--acc), var(--acc-soft), var(--acc-ink)); font-family: var(--sans); font-weight: 500; font-size: 0.72em; line-height: 1.42; margin-top: 0.8em; }
+.say.impl { --kn-label: "Implication"; }
+.say.note { --kn-label: "Note"; }
+.say.newk { --kn-label: "New knowledge"; }
+.say.aim { --kn-label: "Claim"; }
+
+// Key numbers
+.stats { display: grid; gap: 0.8em; }
+.stats.c3 { grid-template-columns: repeat(3, 1fr); }
+.stats.c4 { grid-template-columns: repeat(4, 1fr); }
+.stat-card { @include kn-stat; }
+
+// Cards
+.cards { display: grid; gap: 0.8em; }
+.cards.c2 { grid-template-columns: 1fr 1fr; }
+.cards.c3 { grid-template-columns: repeat(3, 1fr); }
+.cards.c4 { grid-template-columns: repeat(4, 1fr); }
+.card { @include kn-card(var(--acc)); }
+.card.blue { border-top-color: var(--blue); }
+.card.orange { border-top-color: var(--orange); }
+.card h4 { font-family: var(--head); font-weight: 700; font-size: 0.78em; margin: 0 0 0.25em 0; text-transform: none; color: var(--ink); letter-spacing: -0.005em; }
+.card h4 i { color: var(--acc); margin-right: 0.3em; }
+.card p, .card li { font-size: 0.62em; color: var(--ink-2); margin: 0; line-height: 1.42; }
+.card ul li { margin: 0.25em 0; }
+
+// Tables used as content
+.reveal table.grid { width: 100%; border-collapse: collapse; font-size: 0.66em; margin-top: 0.2em; }
+.reveal table.grid th {
+  text-align: left; font-weight: 600; font-size: 0.78em; color: var(--ink-soft); letter-spacing: 0.06em;
+  text-transform: uppercase; padding: 0 0.8em 0.55em 0; border-bottom: 1.5px solid var(--ink);
+}
+.reveal table.grid td { padding: 0.7em 0.8em 0.7em 0; border-bottom: 1px solid var(--rule); vertical-align: top; line-height: 1.38; }
+.reveal table.grid td.dim { color: var(--ink-2); }
+.reveal table.grid td.strong { font-weight: 600; }
+.reveal table.grid td.r { font-size: 0.82em; color: var(--blue); font-weight: 700; white-space: nowrap; letter-spacing: 0.04em; text-transform: uppercase; text-align: right; padding-right: 0; }
+.reveal table.grid td i { color: var(--acc); margin-right: 0.35em; }
+
+// Figures, captions, sources
+.reveal img { margin: 0.1em auto; display: block; }
+.cap { font-size: 0.5em; color: var(--ink-soft); margin-top: 0.25em; text-align: center; line-height: 1.35; }
+.src { font-size: 0.46em; color: var(--ink-soft); margin-top: 0.5em; }
+.backup {
+  display: inline-block; font-size: 0.45em; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft);
+  border: 1px solid var(--rule); border-radius: 999px; padding: 0.15em 0.7em; margin-bottom: 0.6em;
+}
+
+// Cover
+.title-top { font-size: 0.5em; color: var(--ink-soft); letter-spacing: 0.04em; text-transform: uppercase; margin: 0.6em 0 1.1em; }
+.title-box { background: var(--blue); color: $kn-white; padding: 1.2em 1.4em 1.3em; border-radius: 4px; }
+.title-box .t { font-family: var(--head); font-weight: 700; font-size: 1.55em; line-height: 1.14; margin: 0 0 0.9em 0; color: $kn-white; }
+.title-box .a { font-size: 0.74em; margin: 0.1em 0; color: $kn-white; }
+.title-box .a b { color: $kn-white; }
+.title-box .c { font-size: 0.52em; margin-top: 1em; opacity: 0.85; }
+.title-box .c i { margin-right: 0.25em; }
+.logo-row { display: flex; align-items: center; justify-content: space-between; margin-top: 1.6em; padding: 0 0.4em; }
+.logo-row img { margin: 0; }
+
+// Part dividers and the closing slide share one ground
+@mixin kn-ground { background: linear-gradient(135deg, var(--blue-deep) 0%, var(--blue) 70%); color: $kn-white; }
+.divider { @include kn-ground; position: absolute; inset: -0.6em -1.2em; padding: 2.4em 2.6em; }
+.divider .num { position: absolute; right: 0.5em; top: -0.12em; font-family: var(--head); font-weight: 700; font-size: 13em; line-height: 1; color: rgba(255, 255, 255, 0.1); }
+.divider .act { font-size: 0.5em; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255, 255, 255, 0.82); margin-top: 6.4em; }
+.divider .dq { font-family: var(--head); font-weight: 700; font-size: 1.62em; line-height: 1.14; letter-spacing: -0.02em; color: $kn-white; margin: 0.25em 0 0.6em; max-width: 78%; }
+.divider .op { font-size: 0.66em; color: rgba(255, 255, 255, 0.9); border-left: 3px solid var(--orange); padding-left: 0.7em; max-width: 70%; }
+.divider .op span { display: block; font-size: 0.72em; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.75; margin-bottom: 0.1em; }
+.divider .prog { position: absolute; left: 2.6em; bottom: 1.6em; display: flex; gap: 0.4em; }
+.divider .prog i { display: block; width: 2.2em; height: 5px; border-radius: 3px; background: rgba(255, 255, 255, 0.25); }
+.divider .prog i.on { background: var(--orange); }
+
+.closing { @include kn-ground; position: absolute; inset: -0.6em -1.2em; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.closing .t { font-family: var(--head); font-weight: 700; font-size: 2.3em; letter-spacing: -0.02em; margin: 0; }
+.closing .s { font-size: 0.8em; opacity: 0.9; margin: 0.2em 0 1em; }
+.closing img { background: $kn-white; padding: 8px; border-radius: 10px; }
+.closing .u { font-size: 0.5em; opacity: 0.85; margin-top: 0.6em; }
+
+// Footer, slide number and progress. The selectors name .reveal-viewport as well, so they win over Quarto's own footer
+// rules by specificity and no rule needs !important.
+.reveal-viewport .reveal .footer { font-family: var(--sans); font-size: 13px; color: var(--ink-soft); left: 40px; right: auto; bottom: 14px; text-align: left; }
+.reveal-viewport .reveal .slide-number { background: transparent; color: var(--ink-soft); font-family: var(--sans); font-size: 13px; right: 112px; bottom: 12px; }
+.reveal .progress { height: 4px; color: var(--blue); }
+
+// No footer, number or progress bar on the cover, and none on the dark slides (divider, closing). Quarto's footer
+// script sets display inline on every slide change, so this is the one place where !important is needed.
+.reveal-viewport.cover .footer, .reveal-viewport.cover .slide-number, .reveal-viewport.cover .progress { display: none !important; }
+.reveal-viewport .reveal.has-dark-background .footer, .reveal-viewport .reveal.has-dark-background .slide-number,
+.reveal-viewport.has-dark-background .footer, .reveal-viewport.has-dark-background .slide-number { display: none !important; }

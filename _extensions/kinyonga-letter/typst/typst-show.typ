@@ -13,7 +13,7 @@ $-- Quarto emits the body itself after this partial; the show rule below receive
   signatory: none,
   doc,
 ) = {
-  let blue = brand-color.at("blue", default: brand-color.at("primary", default: rgb("#0369A1")))
+  let blue = brand-color.at("blue", default: brand-color.at("primary", default: luma(0)))
   let ink = brand-color.at("foreground", default: luma(30))
   let slate = brand-color.at("slate", default: luma(110))
   let rule = brand-color.at("rule", default: luma(226))

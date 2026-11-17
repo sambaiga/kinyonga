@@ -9,6 +9,7 @@ PyYAML, so a generated project vendors it as ``tools/kn`` and needs no dependenc
 import argparse
 from collections.abc import Sequence
 from pathlib import Path
+import re
 import shutil
 import sys
 
@@ -48,6 +49,64 @@ def _icon_names(extension: Path) -> list[str]:
         The file names (``envelope.svg``) of the entries under ``icons/``, sorted.
     """
     return sorted(Path(item).name for item in _listed_resources(extension) if item.startswith(f"{ICONS}/"))
+
+
+SHARED = "shared"
+
+
+def _shared_files(root: Path, extension: Path) -> list[str]:
+    """List the shared files an extension takes, as named in ``kinyonga.yml`` under ``shared``.
+
+    Args:
+        root: The project folder.
+        extension: The extension folder.
+
+    Returns:
+        The file names, for example ``_components.scss``.
+    """
+    return list(load_settings(root / "kinyonga.yml").get("shared", {}).get(extension.name, []))
+
+
+HEX_LITERAL = re.compile(r"#[0-9A-Fa-f]{6}\b")
+LITERAL_SUFFIXES = {".scss", ".css", ".typ", ".tex", ".lua", ".qmd", ".html"}
+# Folders and files that hold generated or third-party text and may carry any colour.
+LITERAL_SKIP = {
+    "tokens",
+    "bootstrap-icons",
+    "fonts",
+    "assets",
+    "icons",
+    ".venv",
+    ".quarto",
+    "rendered_output",
+    "_freeze",
+}
+
+
+def literal_problems(root: Path, brand: Brand) -> list[str]:
+    """Find hand-written colours that are not in the brand palette.
+
+    A colour is written once, in ``brand.yml``. A theme, template or deck that writes ``#RRGGBB`` itself must use a
+    palette colour; one outside it is a copy that will drift. Generated and third-party folders are skipped.
+
+    Args:
+        root: The project folder.
+        brand: The brand.
+
+    Returns:
+        One message for each file with a colour outside the palette; empty when every literal is a palette colour.
+    """
+    allowed = set(brand.palette.values())
+    problems = []
+    for path in sorted(root.rglob("*")):
+        relative = path.relative_to(root)
+        if not path.is_file() or path.suffix not in LITERAL_SUFFIXES or LITERAL_SKIP & set(relative.parts):
+            continue
+        found = {match.upper() for match in HEX_LITERAL.findall(path.read_text(encoding="utf-8", errors="ignore"))}
+        outside = sorted(found - allowed)
+        if outside:
+            problems.append(f"{relative} writes colours outside the brand palette: {', '.join(outside)}")
+    return problems
 
 
 def extension_dirs(root: Path) -> list[Path]:
@@ -97,6 +156,9 @@ def sync_project(root: Path) -> list[Path]:
             target = extension / file.relative_to(root)
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(file, target)
+        for name in _shared_files(root, extension):
+            (extension / SHARED).mkdir(exist_ok=True)
+            shutil.copyfile(root / SHARED / name, extension / SHARED / name)
         for name in _icon_names(extension):
             source = root / ICONS / name
             if source.is_file():
@@ -140,6 +202,12 @@ def _check_extension(root: Path, brand: Brand, extension: Path) -> list[str]:
         problems.append(f"{copy} differs from brand.yml; run `make sync`")
     problems.extend(check_tokens(brand, extension / "tokens"))
     listed = _listed_resources(extension)
+    for name in _shared_files(root, extension):
+        source, shipped = root / SHARED / name, extension / SHARED / name
+        if not source.is_file():
+            problems.append(f"{source} is missing; kinyonga.yml lists it for {extension.name}")
+        elif not shipped.is_file() or shipped.read_bytes() != source.read_bytes():
+            problems.append(f"{shipped} differs from {source}; run `make sync`")
     for name in _icon_names(extension):
         source = root / ICONS / name
         shipped = extension / ICONS / name
@@ -175,6 +243,7 @@ def check_project(root: Path) -> list[str]:
     problems.extend(check_tokens(brand, root / "tokens"))
     for extension in extension_dirs(root):
         problems.extend(_check_extension(root, brand, extension))
+    problems.extend(literal_problems(root, brand))
     if (root / "cv.yml").is_file():
         problems.extend(f"cv.yml: {problem}" for problem in check_cv(root / "cv.yml"))
     settings = load_settings(root / "kinyonga.yml")
@@ -192,9 +261,16 @@ def main(argv: Sequence[str] | None = None) -> int:
         The exit status: 0 on success, 1 when ``check`` finds problems.
     """
     parser = argparse.ArgumentParser(prog="kn", description="Sync and check the brand of a document project.")
-    parser.add_argument("command", choices=("sync", "check"))
+    parser.add_argument("command", choices=("sync", "check", "timing"))
+    parser.add_argument("deck", nargs="?", type=Path, help="the deck, for timing")
     parser.add_argument("--project", type=Path, default=Path.cwd(), help="the project folder")
     args = parser.parse_args(argv)
+    if args.command == "timing":
+        from .notes import format_clock, load_deck, timing_table, total_seconds
+
+        slides = load_deck(args.deck)
+        sys.stdout.write(f"{timing_table(slides)}\n\nPlanned total {format_clock(total_seconds(slides))}\n")
+        return 0
     if args.command == "sync":
         for path in sync_project(args.project):
             sys.stdout.write(f"synced {path}\n")

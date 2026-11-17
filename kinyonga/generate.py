@@ -14,9 +14,9 @@ import subprocess
 
 from .sync import sync_project
 
-PROFILES = ("letter", "cv")
+PROFILES = ("letter", "cv", "slides")
 # Folders of the kit that only some profiles need, copied to the project root.
-PROFILE_FOLDERS = {"cv": ("icons",)}
+PROFILE_FOLDERS = {"cv": ("icons",), "slides": ("shared",)}
 NAME_PATTERN = re.compile(r"^[a-z][a-z0-9]*(-[a-z0-9]+)*$")
 SAMPLE_NAME = "sample-project"
 SAMPLE_OWNER = "sample-owner"
@@ -25,7 +25,7 @@ SAMPLE_AUTHOR = "Sample Author"
 SAMPLE_EMAIL = "sample@example.org"
 RENAMED = {"pre-commit-config": ".pre-commit-config.yaml", "gitignore": ".gitignore"}
 IGNORED = shutil.ignore_patterns("__pycache__", ".quarto", "_freeze", "rendered_output", "*.pyc", ".DS_Store")
-VENDORED = ("__init__.py", "brand.py", "contrast.py", "cvdata.py", "sync.py", "tokens.py")
+VENDORED = ("__init__.py", "brand.py", "contrast.py", "cvdata.py", "notes.py", "sync.py", "tokens.py")
 TEXT_SUFFIXES = {".md", ".yml", ".yaml", ".toml", ".qmd", ".py", ".txt", ".typ", ".tex", ".scss", ".css", ""}
 
 

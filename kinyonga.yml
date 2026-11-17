@@ -1,4 +1,8 @@
 # Settings of the kit itself (not read by Quarto). Text and background pairs that must meet WCAG AA contrast.
+# Files of shared/ that an extension takes (the slides and the book share the takeaway bar, card and key number).
+shared:
+  kinyonga-slides: [_components.scss]
+
 contrast:
   - {text: ink, background: white, minimum: 4.5}
   - {text: ink-2, background: white, minimum: 4.5}

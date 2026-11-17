@@ -4,7 +4,7 @@ from kinyonga.sync import check_project, extension_dirs, main, recolour, sync_pr
 
 
 def test_a_synced_project_passes_the_check(project: Path):
-    assert [path.name for path in extension_dirs(project)] == ["kinyonga-cv", "kinyonga-letter"]
+    assert [path.name for path in extension_dirs(project)] == ["kinyonga-cv", "kinyonga-letter", "kinyonga-slides"]
     assert check_project(project) == []
 
 
@@ -93,3 +93,41 @@ def test_a_broken_cv_in_the_project_is_reported_with_its_file(project: Path):
     problems = check_project(project)
     assert "cv.yml: cv.summary is required" in problems
     assert "cv.yml: cv.experience is required" in problems
+
+
+def test_a_shared_file_is_copied_into_the_extension_that_takes_it_and_checked(project: Path):
+    slides = extension_dirs(project)[2]
+    assert (slides / "shared" / "_components.scss").read_bytes() == (
+        project / "shared" / "_components.scss"
+    ).read_bytes()
+    (slides / "shared" / "_components.scss").write_text("// edited by hand\n", encoding="utf-8")
+    assert any("shared/_components.scss differs" in problem for problem in check_project(project))
+    sync_project(project)
+    assert check_project(project) == []
+
+
+def test_a_listed_shared_file_that_does_not_exist_is_reported(project: Path):
+    (project / "shared" / "_components.scss").unlink()
+    assert any("_components.scss is missing; kinyonga.yml lists it" in problem for problem in check_project(project))
+
+
+def test_a_colour_outside_the_palette_in_a_theme_or_deck_is_reported(project: Path):
+    theme = extension_dirs(project)[2] / "scss" / "extra.scss"
+    theme.parent.mkdir(exist_ok=True)
+    theme.write_text(".a { color: #123456; background: #0369a1; }\n", encoding="utf-8")
+    problems = check_project(project)
+    assert any("extra.scss writes colours outside the brand palette: #123456" in problem for problem in problems)
+    assert not any("#0369A1" in problem for problem in problems)
+
+
+def test_generated_and_third_party_folders_may_carry_any_colour(project: Path):
+    (project / "tokens" / "extra.scss").write_text(".a { color: #123456; }\n", encoding="utf-8")
+    (project / "icons" / "extra.css").write_text(".a { color: #123456; }\n", encoding="utf-8")
+    assert not any("#123456" in problem for problem in check_project(project))
+
+
+def test_the_vendored_command_prints_the_timing_of_a_deck(tmp_path: Path, capsys):
+    deck = tmp_path / "deck.qmd"
+    deck.write_text("## Cover\n\n::: notes\n[0:45] Hello.\n:::\n", encoding="utf-8")
+    assert main(["timing", str(deck)]) == 0
+    assert "Planned total 0:45" in capsys.readouterr().out
