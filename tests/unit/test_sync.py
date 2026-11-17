@@ -4,12 +4,17 @@ from kinyonga.sync import check_project, extension_dirs, main, recolour, sync_pr
 
 
 def test_a_synced_project_passes_the_check(project: Path):
-    assert [path.name for path in extension_dirs(project)] == ["kinyonga-cv", "kinyonga-letter", "kinyonga-slides"]
+    assert [path.name for path in extension_dirs(project)] == [
+        "kinyonga-book",
+        "kinyonga-cv",
+        "kinyonga-letter",
+        "kinyonga-slides",
+    ]
     assert check_project(project) == []
 
 
 def test_each_extension_carries_its_own_brand_tokens_and_fonts(project: Path):
-    extension = extension_dirs(project)[1]
+    extension = project / "_extensions" / "kinyonga-letter"
     assert (extension / "brand.yml").read_bytes() == (project / "brand.yml").read_bytes()
     assert (extension / "tokens" / "colors.typ").is_file()
     assert (extension / "fonts" / "Jost-SemiBold.ttf").is_file()
@@ -28,7 +33,7 @@ def test_editing_the_brand_without_a_sync_is_reported(project: Path):
 
 
 def test_a_font_missing_from_an_extension_or_not_listed_is_reported(project: Path):
-    extension = extension_dirs(project)[1]
+    extension = project / "_extensions" / "kinyonga-letter"
     (extension / "fonts" / "Jost-Bold.ttf").unlink()
     manifest = extension / "_extension.yml"
     manifest.write_text(
@@ -63,7 +68,7 @@ def test_the_command_syncs_then_checks(project: Path, capsys):
 
 
 def test_a_logo_not_listed_under_format_resources_is_reported(project: Path):
-    manifest = extension_dirs(project)[1] / "_extension.yml"
+    manifest = (project / "_extensions" / "kinyonga-letter") / "_extension.yml"
     manifest.write_text(
         manifest.read_text(encoding="utf-8").replace("        - assets/mark.svg\n", ""), encoding="utf-8"
     )
@@ -71,7 +76,7 @@ def test_a_logo_not_listed_under_format_resources_is_reported(project: Path):
 
 
 def test_icons_are_shipped_in_the_brand_colour(project: Path):
-    extension = extension_dirs(project)[0]
+    extension = project / "_extensions" / "kinyonga-cv"
     shipped = (extension / "icons" / "envelope.svg").read_text(encoding="utf-8")
     source = (project / "icons" / "envelope.svg").read_text(encoding="utf-8")
     assert 'fill="currentColor"' in source
@@ -80,7 +85,7 @@ def test_icons_are_shipped_in_the_brand_colour(project: Path):
 
 
 def test_an_icon_in_the_wrong_colour_or_without_a_source_is_reported(project: Path):
-    extension = extension_dirs(project)[0]
+    extension = project / "_extensions" / "kinyonga-cv"
     (extension / "icons" / "envelope.svg").write_text("<svg/>", encoding="utf-8")
     (project / "icons" / "globe.svg").unlink()
     problems = check_project(project)
@@ -96,7 +101,7 @@ def test_a_broken_cv_in_the_project_is_reported_with_its_file(project: Path):
 
 
 def test_a_shared_file_is_copied_into_the_extension_that_takes_it_and_checked(project: Path):
-    slides = extension_dirs(project)[2]
+    slides = project / "_extensions" / "kinyonga-slides"
     assert (slides / "shared" / "_components.scss").read_bytes() == (
         project / "shared" / "_components.scss"
     ).read_bytes()
@@ -112,7 +117,7 @@ def test_a_listed_shared_file_that_does_not_exist_is_reported(project: Path):
 
 
 def test_a_colour_outside_the_palette_in_a_theme_or_deck_is_reported(project: Path):
-    theme = extension_dirs(project)[2] / "scss" / "extra.scss"
+    theme = (project / "_extensions" / "kinyonga-slides") / "scss" / "extra.scss"
     theme.parent.mkdir(exist_ok=True)
     theme.write_text(".a { color: #123456; background: #0369a1; }\n", encoding="utf-8")
     problems = check_project(project)

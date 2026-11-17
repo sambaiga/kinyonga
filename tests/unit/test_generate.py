@@ -74,3 +74,13 @@ def test_a_new_slides_project_has_its_deck_shared_components_and_timing_target(t
     assert (created / "_extensions" / "kinyonga-slides" / "shared" / "_components.scss").is_file()
     assert not (created / "icons").exists()
     assert check_project(created) == []
+
+
+def test_a_new_book_project_has_chapters_the_book_extension_and_shared_components(tmp_path: Path):
+    created = new_project(Project("my-book", "book", author="A. Writer"), tmp_path / "my-book", git=False)
+    assert "type: book" in (created / "_quarto.yml").read_text(encoding="utf-8")
+    assert (created / "ch1.qmd").is_file()
+    assert (created / "_extensions" / "kinyonga-book" / "scss" / "kinyonga-book.scss").is_file()
+    assert (created / "_extensions" / "kinyonga-book" / "shared" / "_components.scss").is_file()
+    assert (created / "_extensions" / "kinyonga-book" / "tokens" / "colors.typ").is_file()
+    assert check_project(created) == []

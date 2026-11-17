@@ -1,0 +1,4 @@
+# Preface {.unnumbered}
+
+This sample book shows the parts of a kinyonga book: chapters, a figure, a table, an equation, a callout, a
+cross-reference and a citation [@knuth1984]. Replace these files with your own chapters.

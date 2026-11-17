@@ -1,0 +1,27 @@
+# A Quarto book. Render the web edition and the print edition with `make book`.
+project:
+  type: book
+  output-dir: rendered_output
+
+metadata-files:
+  - profile.yml
+
+book:
+  title: Sample Book
+  subtitle: A book in the kinyonga brand
+  author: Sample Author
+  chapters:
+    - index.qmd
+    - ch1.qmd
+    - ch2.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  kinyonga-book-html: default
+  kinyonga-book-typst: default
+
+execute:
+  freeze: auto
+  warning: false

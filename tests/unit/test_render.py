@@ -175,3 +175,35 @@ def test_make_timing_adds_up_the_notes_of_the_starter_deck(slides_project: Path)
     output = subprocess.run(["make", "timing"], cwd=slides_project, check=True, capture_output=True, text=True).stdout
     assert "| Slide | Title | Target | Clock |" in output
     assert "Planned total" in output
+
+
+@pytest.fixture(scope="module")
+def book_project(tmp_path_factory: pytest.TempPathFactory) -> Path:
+    """A generated book project, rendered to HTML and Typst with the pinned Quarto."""
+    created = new_project(
+        Project("my-book", "book", author="Test Person"), tmp_path_factory.mktemp("bk") / "my-book", git=False
+    )
+    subprocess.run(["uv", "sync"], cwd=created, check=True, capture_output=True)
+    subprocess.run(["make", "book"], cwd=created, check=True, capture_output=True)
+    return created
+
+
+@pytest.mark.skipif(shutil.which("uv") is None, reason="needs uv")
+def test_the_book_pdf_is_one_merged_book_in_the_brand_fonts(book_project: Path):
+    pdf = book_project / "rendered_output" / "Sample-Book.pdf"
+    fonts = subprocess.run(["pdffonts", str(pdf)], check=True, capture_output=True, text=True).stdout
+    assert "Jost" in fonts
+    assert "LibreFranklin" in fonts
+    text = pdf_text(pdf)
+    assert "A first chapter" in text
+    assert "A second chapter" in text
+    assert "Figure 1.1" in text
+    assert "Table 1.1" in text
+
+
+@pytest.mark.skipif(shutil.which("uv") is None, reason="needs uv")
+def test_the_book_html_has_every_chapter_and_no_iframe(book_project: Path):
+    out = book_project / "rendered_output"
+    for page in ("index", "ch1", "ch2", "references"):
+        assert (out / f"{page}.html").is_file()
+    assert "<iframe" not in (out / "ch1.html").read_text(encoding="utf-8")
