@@ -15,7 +15,7 @@ cd my-letter && uv sync && make check && make all
 | Profile | Gives you | Status |
 |---|---|---|
 | `letter` | A letterhead letter in Typst; sender and contact line from `profile.yml` | ready |
-| `cv` | An ATS-friendly CV in Typst and HTML from `cv.yml` | planned |
+| `cv` | An ATS-friendly CV from `cv.yml`: a tagged PDF that validates as PDF/UA (Typst) and an HTML page; `make ats` for an edition with spelled-out labels and no icons | ready |
 | `slides` | A reveal.js deck with the shared components, click PDF and phone remote | planned |
 | `book` | A book in HTML and PDF (LaTeX for print, Typst for review) | planned |
 
@@ -31,7 +31,8 @@ cd my-letter && uv sync && make check && make all
 ```text
 brand.yml  kinyonga.yml  fonts/     the one brand, the contrast pairs, the vendored OFL fonts (Jost, Libre Franklin)
 tokens/                              generated from brand.yml: _tokens.scss, tokens.css, colors.typ, colors.tex
-_extensions/kinyonga-letter/         one extension per document kind (Quarto allows one format per base format)
+_extensions/kinyonga-letter, -cv/     one extension per document kind (Quarto allows one format per base format)
+icons/                               Bootstrap Icons as SVG (MIT); sync ships brand-coloured copies with the CV extension
 profiles/base, profiles/letter       real, runnable projects; the generator copies base, then the profile
 kinyonga/                            the generator and the brand tools (sync, check, contrast), with tests
 ```

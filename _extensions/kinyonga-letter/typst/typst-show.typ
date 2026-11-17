@@ -55,6 +55,11 @@ $-- Quarto emits the body itself after this partial; the show rule below receive
   if signatory != none { strong(signatory) }
 }
 
+$if(subject)$
+#set document(title: [$subject$])
+$endif$
+#set text(lang: "$if(lang)$$lang$$else$en$endif$")
+
 #show: doc => kn-letter(
   $if(sender-address)$
   sender: ($for(sender-address)$[$sender-address$], $endfor$),

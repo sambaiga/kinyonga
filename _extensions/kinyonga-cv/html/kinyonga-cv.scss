@@ -1,0 +1,35 @@
+/*-- scss:defaults --*/
+@import "../tokens/tokens";
+
+$body-bg: $kn-white;
+$body-color: $kn-ink;
+$link-color: $kn-blue;
+$link-decoration: none;
+$headings-color: $kn-blue;
+$font-family-sans-serif: $kn-font-body, system-ui, sans-serif;
+$headings-font-family: $kn-font-heading, system-ui, sans-serif;
+
+/*-- scss:rules --*/
+body { font-size: 0.95rem; line-height: 1.45; }
+// The filter writes the visible name and headline; Quarto's own title block would repeat them.
+#title-block-header { display: none; }
+#quarto-content, main.content { max-width: 52rem; margin: 0 auto; padding: 2rem 1.25rem; }
+
+.kn-name { font-size: 2.1rem; font-weight: 600; margin: 0 0 0.2rem; color: $kn-ink; }
+.kn-headline { color: $kn-blue; font-size: 1.1rem; margin: 0 0 0.6rem; }
+.kn-contact p { color: $kn-slate; font-size: 0.85rem; margin: 0 0 0.4rem; }
+.kn-item { white-space: nowrap; margin-right: 1rem; }
+.kn-contact .kn-icon { height: 0.9em; vertical-align: -0.1em; margin-right: 0.15em; }
+
+h2 { font-size: 1.15rem; font-weight: 600; margin: 1.4rem 0 0.6rem; padding-bottom: 0.2rem; border-bottom: 1px solid $kn-rule; }
+
+.kn-line > p { display: flex; justify-content: space-between; gap: 1rem; margin: 0.7rem 0 0.15rem; }
+.kn-right { color: $kn-slate; white-space: nowrap; }
+.kn-org { color: $kn-blue; }
+ul { padding-left: 1.1rem; margin: 0.2rem 0 0.5rem; }
+li { margin: 0.15rem 0; }
+
+@media print {
+  body { font-size: 10pt; }
+  #quarto-content, main.content { padding: 0; max-width: none; }
+}

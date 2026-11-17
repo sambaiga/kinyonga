@@ -23,6 +23,9 @@ check:  ## Brand, tokens, fonts, contrast and spelling
 hooks:  ## Install the git hooks with prek
 	uv run prek install --install-hooks --hook-type pre-commit --hook-type commit-msg
 
+# A profile can add targets in profile.mk (the CV adds `make ats`).
+-include profile.mk
+
 %: %.qmd
 	$(QUARTO) render $<
 

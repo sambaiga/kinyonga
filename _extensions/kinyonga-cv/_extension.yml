@@ -1,0 +1,71 @@
+# kinyonga CV: one cv.yml rendered to an ATS-friendly PDF (Typst) and an HTML page.
+#
+# One extension per document kind: Quarto splits `kinyonga-cv-typst` at the last hyphen, so an extension can give one
+# format per base format. brand.yml, tokens/, fonts/, assets/ and icons/ here are copies written by `kinyonga sync`;
+# never edit them. The icons are Bootstrap Icons (MIT) recoloured with the brand colour.
+#
+# Both formats run the same filter, which builds the whole CV from the `cv` key of cv.yml and the `identity` key of
+# profile.yml, so there is one reading order and one text. Set `ats: true` (for example `-M ats:true`) to drop the
+# icons and spell the contact labels out.
+
+title: kinyonga CV
+author: sambaiga
+version: 0.1.0
+quarto-required: ">=1.9.0"
+
+contributes:
+  metadata:
+    project:
+      brand: brand.yml
+
+  formats:
+    typst:
+      papersize: a4
+      toc: false
+      number-sections: false
+      filters:
+        - filters/cv.lua
+      template-partials:
+        - typst/typst-show.typ
+      format-resources:
+        - icons/envelope.svg
+        - icons/telephone.svg
+        - icons/geo-alt.svg
+        - icons/globe.svg
+        - icons/linkedin.svg
+        - icons/github.svg
+        - assets/logo.svg
+        - assets/logo-dark.svg
+        - assets/mark.svg
+        - fonts/Jost-SemiBold.ttf
+        - fonts/Jost-Bold.ttf
+        - fonts/LibreFranklin-Regular.ttf
+        - fonts/LibreFranklin-Italic.ttf
+        - fonts/LibreFranklin-SemiBold.ttf
+        - fonts/LibreFranklin-SemiBoldItalic.ttf
+
+    html:
+      theme:
+        - brand
+        - html/kinyonga-cv.scss
+      filters:
+        - filters/cv.lua
+      toc: false
+      format-links: false
+      embed-resources: true
+      format-resources:
+        - icons/envelope.svg
+        - icons/telephone.svg
+        - icons/geo-alt.svg
+        - icons/globe.svg
+        - icons/linkedin.svg
+        - icons/github.svg
+        - assets/logo.svg
+        - assets/logo-dark.svg
+        - assets/mark.svg
+        - fonts/Jost-SemiBold.ttf
+        - fonts/Jost-Bold.ttf
+        - fonts/LibreFranklin-Regular.ttf
+        - fonts/LibreFranklin-Italic.ttf
+        - fonts/LibreFranklin-SemiBold.ttf
+        - fonts/LibreFranklin-SemiBoldItalic.ttf
