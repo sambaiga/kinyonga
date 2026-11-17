@@ -73,6 +73,7 @@ repos:
     hooks:
       - id: codespell
         args: [--ignore-words=codespell.ignore]
+        exclude: bootstrap-icons
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.15.12
