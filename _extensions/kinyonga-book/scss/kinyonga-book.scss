@@ -1,0 +1,50 @@
+/*-- scss:defaults --*/
+@import "../tokens/tokens";
+@import "../shared/components";
+
+$body-bg: $kn-white;
+$body-color: $kn-ink;
+$link-color: $kn-blue;
+$link-color-hover: $kn-blue-deep;
+$font-family-sans-serif: $kn-font-body, "Helvetica Neue", Arial, sans-serif;
+$headings-font-family: $kn-font-heading, "Helvetica Neue", Arial, sans-serif;
+$headings-color: $kn-ink;
+
+/*-- scss:rules --*/
+// Web edition of the book. Colour by role: ink for text, blue for the subject and links, orange only for what to
+// notice. The tokens come from tokens/ (generated from brand.yml); this file never writes a colour of its own.
+// Components shared with the slides: .takeaway (bar), .card, .stat.
+
+h1, h2, h3, h4 {
+  font-weight: 600;
+}
+
+h1.title {
+  color: $kn-blue-deep;
+}
+
+.takeaway {
+  @include kn-bar;
+  margin: 1.2em 0;
+}
+
+.card {
+  @include kn-card;
+}
+
+.stat {
+  @include kn-stat(1.8em, 0.8em);
+}
+
+.callout-note {
+  border-left-color: $kn-blue;
+}
+
+.callout-warning,
+.callout-important {
+  border-left-color: $kn-orange;
+}
+
+.sidebar nav[role="doc-toc"] a.active {
+  color: $kn-blue;
+}

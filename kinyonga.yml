@@ -2,6 +2,7 @@
 # Files of shared/ that an extension takes (the slides and the book share the takeaway bar, card and key number).
 shared:
   kinyonga-slides: [_components.scss]
+  kinyonga-book: [_components.scss]
 
 contrast:
   - {text: ink, background: white, minimum: 4.5}

@@ -14,9 +14,9 @@ import subprocess
 
 from .sync import sync_project
 
-PROFILES = ("letter", "cv", "slides")
+PROFILES = ("letter", "cv", "slides", "book")
 # Folders of the kit that only some profiles need, copied to the project root.
-PROFILE_FOLDERS = {"cv": ("icons",), "slides": ("shared",)}
+PROFILE_FOLDERS = {"cv": ("icons",), "slides": ("shared",), "book": ("shared",)}
 NAME_PATTERN = re.compile(r"^[a-z][a-z0-9]*(-[a-z0-9]+)*$")
 SAMPLE_NAME = "sample-project"
 SAMPLE_OWNER = "sample-owner"

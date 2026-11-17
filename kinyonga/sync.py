@@ -72,6 +72,7 @@ LITERAL_SUFFIXES = {".scss", ".css", ".typ", ".tex", ".lua", ".qmd", ".html"}
 # Folders and files that hold generated or third-party text and may carry any colour.
 LITERAL_SKIP = {
     "tokens",
+    "packages",
     "bootstrap-icons",
     "fonts",
     "assets",

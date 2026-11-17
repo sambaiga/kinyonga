@@ -1,0 +1,8 @@
+# A second chapter {#sec-second}
+
+Chapter two refers back to @sec-first and shows a warning.
+
+::: {.callout-warning}
+## Limit
+Say here what the method cannot do.
+:::
