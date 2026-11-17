@@ -1,0 +1,10 @@
+# Who you are: read by every document of the project (letter, CV, slides) through `metadata-files`.
+# The contact details sit under `identity` because names such as `website` and `email` mean something to Quarto.
+author: Sample Author
+identity:
+  email: sample@example.org
+  phone: "+000 000 000 000"
+  location: City, Country
+  url: example.org
+  linkedin: sample
+  github: sample

@@ -1,0 +1,12 @@
+# A Quarto project is needed for the brand to take effect. profile.yml is read by every document, so a name, an
+# email or a link is written once.
+project:
+  type: default
+  output-dir: rendered_output
+
+metadata-files:
+  - profile.yml
+
+execute:
+  freeze: auto
+  warning: false

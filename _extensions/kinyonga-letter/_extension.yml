@@ -1,0 +1,32 @@
+# kinyonga letter: a letterhead in the kinyonga brand, for Typst.
+#
+# One extension per document kind: Quarto splits `kinyonga-letter-typst` at the last hyphen, so an extension can
+# give one format per base format, and the CV needs the `typst` slot too. brand.yml, tokens/ and fonts/ here are
+# copies written by `kinyonga sync` from the project's brand.yml; never edit them.
+
+title: kinyonga letter
+author: sambaiga
+version: 0.1.0
+quarto-required: ">=1.9.0"
+
+contributes:
+  metadata:
+    project:
+      brand: brand.yml
+
+  formats:
+    typst:
+      papersize: a4
+      fontsize: 10.5pt
+      toc: false
+      number-sections: false
+      date-format: "D MMMM YYYY"
+      template-partials:
+        - typst/typst-show.typ
+      format-resources:
+        - fonts/Jost-SemiBold.ttf
+        - fonts/Jost-Bold.ttf
+        - fonts/LibreFranklin-Regular.ttf
+        - fonts/LibreFranklin-Italic.ttf
+        - fonts/LibreFranklin-SemiBold.ttf
+        - fonts/LibreFranklin-SemiBoldItalic.ttf
