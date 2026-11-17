@@ -16,7 +16,38 @@ import yaml
 
 from .brand import Brand, BrandError, load_brand, load_settings, missing_fonts
 from .contrast import check_contrast
+from .cvdata import check_cv
 from .tokens import check_tokens, write_tokens
+
+ICONS = "icons"
+
+
+def recolour(svg: str, colour: str) -> str:
+    """Give a single-colour icon the brand colour.
+
+    Bootstrap Icons draw with ``currentColor``, which Typst renders black; the extension ships copies with the colour
+    written in, so the brand colour is still defined only in ``brand.yml``.
+
+    Args:
+        svg: The icon source.
+        colour: ``#RRGGBB``.
+
+    Returns:
+        The icon with ``fill="currentColor"`` replaced by the colour.
+    """
+    return svg.replace('fill="currentColor"', f'fill="{colour}"')
+
+
+def _icon_names(extension: Path) -> list[str]:
+    """List the icon files an extension lists under ``format-resources``.
+
+    Args:
+        extension: The extension folder.
+
+    Returns:
+        The file names (``envelope.svg``) of the entries under ``icons/``, sorted.
+    """
+    return sorted(Path(item).name for item in _listed_resources(extension) if item.startswith(f"{ICONS}/"))
 
 
 def extension_dirs(root: Path) -> list[Path]:
@@ -66,6 +97,12 @@ def sync_project(root: Path) -> list[Path]:
             target = extension / file.relative_to(root)
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(file, target)
+        for name in _icon_names(extension):
+            source = root / ICONS / name
+            if source.is_file():
+                (extension / ICONS).mkdir(exist_ok=True)
+                text = recolour(source.read_text(encoding="utf-8"), brand.colour("primary"))
+                (extension / ICONS / name).write_text(text, encoding="utf-8")
         updated.append(extension)
     return updated
 
@@ -103,6 +140,15 @@ def _check_extension(root: Path, brand: Brand, extension: Path) -> list[str]:
         problems.append(f"{copy} differs from brand.yml; run `make sync`")
     problems.extend(check_tokens(brand, extension / "tokens"))
     listed = _listed_resources(extension)
+    for name in _icon_names(extension):
+        source = root / ICONS / name
+        shipped = extension / ICONS / name
+        if not source.is_file():
+            problems.append(f"{source} is missing; the extension lists icons/{name}")
+        elif not shipped.is_file() or shipped.read_text(encoding="utf-8") != recolour(
+            source.read_text(encoding="utf-8"), brand.colour("primary")
+        ):
+            problems.append(f"{shipped} differs from {source} in the brand colour; run `make sync`")
     for file in _font_files(brand, root):
         shipped = file.relative_to(root).as_posix()
         if not (extension / shipped).is_file():
@@ -129,6 +175,8 @@ def check_project(root: Path) -> list[str]:
     problems.extend(check_tokens(brand, root / "tokens"))
     for extension in extension_dirs(root):
         problems.extend(_check_extension(root, brand, extension))
+    if (root / "cv.yml").is_file():
+        problems.extend(f"cv.yml: {problem}" for problem in check_cv(root / "cv.yml"))
     settings = load_settings(root / "kinyonga.yml")
     problems.extend(check_contrast(brand, settings.get("contrast", [])))
     return problems

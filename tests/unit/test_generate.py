@@ -45,3 +45,21 @@ def test_an_unknown_profile_or_an_existing_folder_is_refused(tmp_path: Path):
     (tmp_path / "taken").mkdir()
     with pytest.raises(FileExistsError):
         new_project(Project("taken", PROFILES[0]), tmp_path / "taken")
+
+
+def test_a_new_cv_project_has_its_data_icons_and_extra_target_and_passes_the_check(tmp_path: Path):
+    project = Project("my-cv", "cv", author="A. Writer")
+    created = new_project(project, tmp_path / "my-cv", git=False)
+    assert (created / "cv.yml").is_file()
+    assert (created / "profile.mk").is_file()
+    assert (created / "icons" / "envelope.svg").is_file()
+    assert (created / "_extensions" / "kinyonga-cv" / "filters" / "cv.lua").is_file()
+    assert (created / "tools" / "kn" / "cvdata.py").is_file()
+    assert "title: A. Writer" in (created / "cv.qmd").read_text(encoding="utf-8")
+    assert not (created / "letter.qmd").exists()
+    assert check_project(created) == []
+
+
+def test_a_letter_project_does_not_carry_the_icons(tmp_path: Path):
+    created = new_project(Project("my-letter", "letter"), tmp_path / "my-letter", git=False)
+    assert not (created / "icons").exists()

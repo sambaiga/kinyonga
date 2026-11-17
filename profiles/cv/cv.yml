@@ -1,0 +1,50 @@
+# The data of the CV: write it once, the PDF and the HTML page are made from it. Use plain hyphens (`make check`
+# warns about typographic dashes: an applicant tracking system reads them badly) and one idea for each bullet.
+cv:
+  headline: Lead Data Scientist | Applied Machine Learning
+  summary: >-
+    Data scientist with eight years of experience building production forecasting and monitoring systems for energy
+    and manufacturing. Leads small teams from prototype to deployment and writes the methods up in peer-reviewed work.
+  achievements:
+    - label: Strategic leadership
+      text: Appointed principal investigator and secured 1.6M euro in competitive funding for an applied AI programme.
+    - label: Forecasting
+      text: Cut forecasting error by 25% with multi-horizon probabilistic models in production.
+  experience:
+    - org: Sample Organisation
+      location: Dublin, Ireland
+      roles:
+        - title: Lead Data Scientist
+          unit: Centre for Intelligent Power
+          start: 2022
+          end: Present
+          summary: Leads the design of production forecasting systems across the grid and energy portfolio.
+          bullets:
+            - Designed a unified load, solar and EV charging forecasting service used by three product teams.
+            - Set up retraining, drift detection and dashboards, so models are monitored after release.
+            - Mentored four data scientists and presented results to executives and at international events.
+    - org: Example Research Centre
+      location: Dublin, Ireland
+      roles:
+        - title: Senior Industrial Analytics Researcher
+          start: 2021
+          end: 2022
+          bullets:
+            - Directed a predictive maintenance programme that reduced unplanned downtime by 30%.
+            - Built computer vision inspection that cut defect detection time by 40%.
+  education:
+    - degree: PhD in Computer Science and Engineering
+      school: Instituto Superior Tecnico
+      location: Lisbon, Portugal
+      year: 2025
+    - degree: MSc in Telecommunications Engineering
+      school: Example University
+      location: City, Country
+      year: 2012
+  skills:
+    - group: Methods
+      items: [time-series forecasting, probabilistic modelling, deep learning, anomaly detection]
+    - group: Tools
+      items: [Python, PyTorch, SQL, Docker, Airflow, MLflow]
+  publications:
+    - "Author, A., Coauthor, B. (2025). Title of the paper. Name of the Journal, 40(1), 46-57."

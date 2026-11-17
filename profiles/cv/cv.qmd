@@ -1,0 +1,11 @@
+---
+title: Sample Author
+metadata-files:
+  - cv.yml
+format:
+  kinyonga-cv-typst: default
+  kinyonga-cv-html: default
+---
+
+<!-- The CV is built from cv.yml (the cv key) and profile.yml (the identity key); this body is empty on purpose.
+     Anything written here is added after the last section. -->

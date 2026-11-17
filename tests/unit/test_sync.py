@@ -1,15 +1,15 @@
 from pathlib import Path
 
-from kinyonga.sync import check_project, extension_dirs, main, sync_project
+from kinyonga.sync import check_project, extension_dirs, main, recolour, sync_project
 
 
 def test_a_synced_project_passes_the_check(project: Path):
-    assert extension_dirs(project)[0].name == "kinyonga-letter"
+    assert [path.name for path in extension_dirs(project)] == ["kinyonga-cv", "kinyonga-letter"]
     assert check_project(project) == []
 
 
 def test_each_extension_carries_its_own_brand_tokens_and_fonts(project: Path):
-    extension = extension_dirs(project)[0]
+    extension = extension_dirs(project)[1]
     assert (extension / "brand.yml").read_bytes() == (project / "brand.yml").read_bytes()
     assert (extension / "tokens" / "colors.typ").is_file()
     assert (extension / "fonts" / "Jost-SemiBold.ttf").is_file()
@@ -28,7 +28,7 @@ def test_editing_the_brand_without_a_sync_is_reported(project: Path):
 
 
 def test_a_font_missing_from_an_extension_or_not_listed_is_reported(project: Path):
-    extension = extension_dirs(project)[0]
+    extension = extension_dirs(project)[1]
     (extension / "fonts" / "Jost-Bold.ttf").unlink()
     manifest = extension / "_extension.yml"
     manifest.write_text(
@@ -63,8 +63,33 @@ def test_the_command_syncs_then_checks(project: Path, capsys):
 
 
 def test_a_logo_not_listed_under_format_resources_is_reported(project: Path):
-    manifest = extension_dirs(project)[0] / "_extension.yml"
+    manifest = extension_dirs(project)[1] / "_extension.yml"
     manifest.write_text(
         manifest.read_text(encoding="utf-8").replace("        - assets/mark.svg\n", ""), encoding="utf-8"
     )
     assert any("does not list assets/mark.svg" in problem for problem in check_project(project))
+
+
+def test_icons_are_shipped_in_the_brand_colour(project: Path):
+    extension = extension_dirs(project)[0]
+    shipped = (extension / "icons" / "envelope.svg").read_text(encoding="utf-8")
+    source = (project / "icons" / "envelope.svg").read_text(encoding="utf-8")
+    assert 'fill="currentColor"' in source
+    assert 'fill="#0369A1"' in shipped
+    assert recolour(source, "#0369A1") == shipped
+
+
+def test_an_icon_in_the_wrong_colour_or_without_a_source_is_reported(project: Path):
+    extension = extension_dirs(project)[0]
+    (extension / "icons" / "envelope.svg").write_text("<svg/>", encoding="utf-8")
+    (project / "icons" / "globe.svg").unlink()
+    problems = check_project(project)
+    assert any("envelope.svg differs" in problem for problem in problems)
+    assert any("globe.svg is missing; the extension lists icons/globe.svg" in problem for problem in problems)
+
+
+def test_a_broken_cv_in_the_project_is_reported_with_its_file(project: Path):
+    (project / "cv.yml").write_text("cv:\n  headline: Only a headline\n", encoding="utf-8")
+    problems = check_project(project)
+    assert "cv.yml: cv.summary is required" in problems
+    assert "cv.yml: cv.experience is required" in problems
