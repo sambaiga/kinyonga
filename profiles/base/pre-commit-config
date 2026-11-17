@@ -1,0 +1,46 @@
+# Runs under prek (`uv run prek ...`) or pre-commit; install with `make hooks`.
+default_language_version:
+  python: python3.12
+
+exclude: ^(\.venv/|\.quarto/|rendered_output/|fonts/|tokens/)
+
+repos:
+  - repo: local
+    hooks:
+      - id: commitizen
+        name: commitizen check
+        entry: uv run cz check
+        args: [--commit-msg-file]
+        language: system
+        stages: [commit-msg]
+      - id: no-ai-trailer
+        name: no AI co-author or "generated with" trailer
+        entry: '(?i)^(co-authored-by:.*(claude|anthropic|copilot|openai|chatgpt|gpt|gemini|cursor|codeium|aider)|.*generated (with|by) \[?(claude|copilot|chatgpt|gemini))'
+        language: pygrep
+        stages: [commit-msg]
+      - id: brand-check
+        name: brand, tokens, fonts and contrast
+        entry: uv run python -m tools.kn check
+        language: system
+        pass_filenames: false
+        always_run: true
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-added-large-files
+        args: [--maxkb=2048]
+      - id: no-commit-to-branch
+        args: [--branch, main]
+      - id: check-merge-conflict
+      - id: check-yaml
+      - id: detect-private-key
+      - id: end-of-file-fixer
+        exclude: \.(ttf|svg)$
+      - id: trailing-whitespace
+
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.4.2
+    hooks:
+      - id: codespell
+        args: [--ignore-words=codespell.ignore]

@@ -1,0 +1,157 @@
+"""Keep every extension's brand, tokens and fonts equal to the project's brand file, and check that they are.
+
+A Quarto extension is installed alone (``quarto add``), so each one carries its own copy of ``brand.yml``, the
+generated tokens and the fonts it names. ``sync_project`` writes those copies; ``check_project`` fails when one
+differs, a font is missing, or a contrast pair is below its minimum. The module needs only the standard library and
+PyYAML, so a generated project vendors it as ``tools/kn`` and needs no dependency on this package.
+"""
+
+import argparse
+from collections.abc import Sequence
+from pathlib import Path
+import shutil
+import sys
+
+import yaml
+
+from .brand import Brand, BrandError, load_brand, load_settings, missing_fonts
+from .contrast import check_contrast
+from .tokens import check_tokens, write_tokens
+
+
+def extension_dirs(root: Path) -> list[Path]:
+    """List the extensions of a project.
+
+    Args:
+        root: The project folder.
+
+    Returns:
+        The folders under ``_extensions`` that hold an ``_extension.yml``, sorted.
+    """
+    return sorted(path.parent for path in (root / "_extensions").glob("*/_extension.yml"))
+
+
+def _font_files(brand: Brand, source: Path) -> list[Path]:
+    """Return the font files and licence texts to ship with an extension.
+
+    Args:
+        brand: The brand.
+        source: The folder the brand's font paths are relative to.
+
+    Returns:
+        The declared font files and any ``OFL-*.txt`` next to them, without duplicates.
+    """
+    files = {source / font.path for font in brand.fonts}
+    for font in brand.fonts:
+        files.update((source / font.path).parent.glob("OFL-*.txt"))
+    return sorted(files)
+
+
+def sync_project(root: Path) -> list[Path]:
+    """Write the generated tokens and the brand copies into the project and its extensions.
+
+    Args:
+        root: The project folder, which holds ``brand.yml``.
+
+    Returns:
+        The folders that were updated: the project's ``tokens`` folder and each extension.
+    """
+    brand = load_brand(root / "brand.yml")
+    updated = [root / "tokens"]
+    write_tokens(brand, root / "tokens")
+    for extension in extension_dirs(root):
+        shutil.copyfile(root / "brand.yml", extension / "brand.yml")
+        write_tokens(brand, extension / "tokens")
+        (extension / "fonts").mkdir(exist_ok=True)
+        for font in _font_files(brand, root):
+            shutil.copyfile(font, extension / "fonts" / font.name)
+        updated.append(extension)
+    return updated
+
+
+def _listed_resources(extension: Path) -> set[str]:
+    """Return every ``format-resources`` entry of an extension.
+
+    Args:
+        extension: The extension folder.
+
+    Returns:
+        The listed paths across all its formats.
+    """
+    data = yaml.safe_load((extension / "_extension.yml").read_text(encoding="utf-8")) or {}
+    listed: set[str] = set()
+    for options in (data.get("contributes", {}).get("formats", {}) or {}).values():
+        listed.update(str(item) for item in (options or {}).get("format-resources", []) or [])
+    return listed
+
+
+def _check_extension(root: Path, brand: Brand, extension: Path) -> list[str]:
+    """Check one extension against the project's brand.
+
+    Args:
+        root: The project folder.
+        brand: The brand.
+        extension: The extension folder.
+
+    Returns:
+        The problems found; empty when the extension is current.
+    """
+    problems = []
+    copy = extension / "brand.yml"
+    if not copy.is_file() or copy.read_bytes() != (root / "brand.yml").read_bytes():
+        problems.append(f"{copy} differs from brand.yml; run `make sync`")
+    problems.extend(check_tokens(brand, extension / "tokens"))
+    listed = _listed_resources(extension)
+    for font in _font_files(brand, root):
+        shipped = f"fonts/{font.name}"
+        if not (extension / shipped).is_file():
+            problems.append(f"{extension / shipped} is missing; run `make sync`")
+        elif font.suffix == ".ttf" and shipped not in listed:
+            problems.append(f"{extension / '_extension.yml'} does not list {shipped} under format-resources")
+    return problems
+
+
+def check_project(root: Path) -> list[str]:
+    """Check that a project's brand, tokens, extensions, fonts and contrast are consistent.
+
+    Args:
+        root: The project folder.
+
+    Returns:
+        One message for each problem; empty when everything is consistent.
+    """
+    try:
+        brand = load_brand(root / "brand.yml")
+    except BrandError as error:
+        return [str(error)]
+    problems = [f"font file {path} is missing" for path in missing_fonts(brand, root)]
+    problems.extend(check_tokens(brand, root / "tokens"))
+    for extension in extension_dirs(root):
+        problems.extend(_check_extension(root, brand, extension))
+    settings = load_settings(root / "kinyonga.yml")
+    problems.extend(check_contrast(brand, settings.get("contrast", [])))
+    return problems
+
+
+def main(argv: Sequence[str] | None = None) -> int:
+    """Run ``sync`` or ``check`` on a project; the entry point of the vendored ``tools/kn``.
+
+    Args:
+        argv: The arguments; ``sys.argv`` is used when omitted.
+
+    Returns:
+        The exit status: 0 on success, 1 when ``check`` finds problems.
+    """
+    parser = argparse.ArgumentParser(prog="kn", description="Sync and check the brand of a document project.")
+    parser.add_argument("command", choices=("sync", "check"))
+    parser.add_argument("--project", type=Path, default=Path.cwd(), help="the project folder")
+    args = parser.parse_args(argv)
+    if args.command == "sync":
+        for path in sync_project(args.project):
+            sys.stdout.write(f"synced {path}\n")
+        return 0
+    problems = check_project(args.project)
+    for problem in problems:
+        sys.stderr.write(f"{problem}\n")
+    sys.stdout.write("brand check passed\n" if not problems else f"{len(problems)} problem(s)\n")
+    return 1 if problems else 0

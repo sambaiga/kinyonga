@@ -1,0 +1,13 @@
+# Settings of the kit itself (not read by Quarto). Text and background pairs that must meet WCAG AA contrast.
+contrast:
+  - {text: ink, background: white, minimum: 4.5}
+  - {text: ink-2, background: white, minimum: 4.5}
+  - {text: slate, background: white, minimum: 4.5}
+  - {text: blue, background: white, minimum: 4.5}
+  - {text: blue-deep, background: blue-soft, minimum: 4.5}
+  - {text: orange-ink, background: orange-soft, minimum: 4.5}
+  - {text: white, background: blue, minimum: 4.5}
+  - {text: white, background: ink, minimum: 4.5}
+  - {text: white, background: blue-deep, minimum: 4.5}
+  - {text: danger, background: white, minimum: 4.5}
+  - {text: success, background: white, minimum: 3.0}

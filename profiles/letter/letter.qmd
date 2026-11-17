@@ -1,0 +1,21 @@
+---
+# The sender and the contact line come from profile.yml. Write who it goes to and what it says.
+subject: "Application for the post of Senior Data Scientist"
+recipient:
+  - Hiring Manager
+  - Sample Organisation
+  - 1 Example Street, Dublin
+date: today
+closing: "Yours sincerely,"
+format: kinyonga-letter-typst
+---
+
+Dear Hiring Manager,
+
+I am writing to apply for the post advertised on your website. I lead the design of production forecasting systems
+and would welcome the chance to bring that experience to your team.
+
+In my current role I have delivered models that cut forecasting error and moved from prototype to monitored
+production. I would be glad to discuss how this applies to your work.
+
+Thank you for your time and consideration.

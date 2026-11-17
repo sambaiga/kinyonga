@@ -1,0 +1,34 @@
+[project]
+name = "sample-project"
+version = "0.1.0"
+description = "Sample description"
+authors = [{ name = "Sample Author", email = "sample@example.org" }]
+readme = "README.md"
+requires-python = ">=3.12"
+# Quarto itself is a pinned dependency, so a checkout renders the same on a machine that never had Quarto
+# installed. Bump it deliberately and note it in the changelog.
+dependencies = [
+    "quarto-cli>=1.11,<1.12",
+    "pyyaml>=6.0",
+]
+
+[dependency-groups]
+dev = [
+    "prek>=0.2",
+    "commitizen>=4.0",
+    "codespell>=2.4",
+]
+
+[tool.uv]
+package = false
+required-version = ">=0.9"
+default-groups = ["dev"]
+
+[tool.codespell]
+ignore-words = "codespell.ignore"
+skip = "*.ttf,*.svg,uv.lock,tokens,fonts"
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+version_provider = "pep621"
+tag_format = "v$version"
