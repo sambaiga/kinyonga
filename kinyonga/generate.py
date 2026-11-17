@@ -142,6 +142,7 @@ def new_project(project: Project, destination: Path, *, git: bool = True) -> Pat
     for name in ("brand.yml", "kinyonga.yml"):
         shutil.copyfile(source / name, destination / name)
     shutil.copytree(source / "fonts", destination / "fonts")
+    shutil.copytree(source / "assets", destination / "assets")
     _copy(
         source / "_extensions" / f"kinyonga-{project.profile}",
         destination / "_extensions" / f"kinyonga-{project.profile}",

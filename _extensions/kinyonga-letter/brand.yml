@@ -6,6 +6,22 @@ meta:
     full: kinyonga
     short: kinyonga
 
+logo:
+  images:
+    kinyonga-mark:
+      path: assets/mark.svg
+      alt: kinyonga
+    kinyonga-logo:
+      path: assets/logo.svg
+      alt: kinyonga
+    kinyonga-logo-dark:
+      path: assets/logo-dark.svg
+      alt: kinyonga
+  small: kinyonga-mark
+  medium:
+    light: kinyonga-logo
+    dark: kinyonga-logo-dark
+
 color:
   palette:
     white: "#FFFFFF"

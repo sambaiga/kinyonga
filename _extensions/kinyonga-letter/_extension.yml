@@ -24,6 +24,9 @@ contributes:
       template-partials:
         - typst/typst-show.typ
       format-resources:
+        - assets/logo.svg
+        - assets/logo-dark.svg
+        - assets/mark.svg
         - fonts/Jost-SemiBold.ttf
         - fonts/Jost-Bold.ttf
         - fonts/LibreFranklin-Regular.ttf

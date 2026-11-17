@@ -42,6 +42,7 @@ class Brand:
         palette: Colour name to upper-case ``#RRGGBB``.
         roles: Semantic role (``primary``, ``link``) to the palette name it uses.
         fonts: Every declared font file.
+        logos: The logo files, relative to the brand file.
         base_family: The family of body text.
         heading_family: The family of headings.
     """
@@ -51,6 +52,7 @@ class Brand:
     fonts: tuple[FontFile, ...]
     base_family: str
     heading_family: str
+    logos: tuple[str, ...] = ()
 
     def colour(self, name: str) -> str:
         """Return the hex value of a palette colour or of a role.
@@ -142,20 +144,22 @@ def load_brand(path: Path) -> Brand:
     if not palette or base is None or headings is None:
         msg = "the brand file needs a palette and base and headings families"
         raise BrandError(msg)
-    return Brand(palette, roles, _fonts(typography), base, headings)
+    logos = tuple(sorted({str(entry["path"]) for entry in data.get("logo", {}).get("images", {}).values()}))
+    return Brand(palette, roles, _fonts(typography), base, headings, logos)
 
 
 def missing_fonts(brand: Brand, folder: Path) -> list[str]:
-    """List the font files the brand declares that do not exist.
+    """List the font and logo files the brand declares that do not exist.
 
     Args:
         brand: The brand.
         folder: The folder the font paths are relative to (the folder of the brand file).
 
     Returns:
-        The declared paths that are not files, sorted.
+        The declared font and logo paths that are not files, sorted.
     """
-    return sorted({font.path for font in brand.fonts if not (folder / font.path).is_file()})
+    declared = {font.path for font in brand.fonts} | set(brand.logos)
+    return sorted(path for path in declared if not (folder / path).is_file())
 
 
 def load_settings(path: Path) -> dict:

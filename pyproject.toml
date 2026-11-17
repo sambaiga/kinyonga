@@ -33,6 +33,7 @@ packages = ["kinyonga"]
 "profiles" = "kinyonga/_data/profiles"
 "_extensions" = "kinyonga/_data/_extensions"
 "fonts" = "kinyonga/_data/fonts"
+"assets" = "kinyonga/_data/assets"
 "brand.yml" = "kinyonga/_data/brand.yml"
 "kinyonga.yml" = "kinyonga/_data/kinyonga.yml"
 

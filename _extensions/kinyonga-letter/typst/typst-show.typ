@@ -19,7 +19,9 @@ $-- Quarto emits the body itself after this partial; the show rule below receive
   let rule = brand-color.at("rule", default: luma(226))
   set page(
     paper: "a4",
-    margin: (top: 3.4cm, bottom: 2.6cm, x: 2.4cm),
+    margin: (top: 4.2cm, bottom: 2.6cm, x: 2.4cm),
+    header-ascent: 0.5cm,
+    header: align(left, image("logo.svg", height: 1.15cm)),
     numbering: none,
     background: place(top + left, rect(width: 100%, height: 0.5cm, fill: blue, stroke: none)),
     footer: if contact.len() > 0 { align(center, text(size: 8pt, fill: slate, contact.join([  ·  ]))) },

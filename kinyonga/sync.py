@@ -41,7 +41,7 @@ def _font_files(brand: Brand, source: Path) -> list[Path]:
     Returns:
         The declared font files and any ``OFL-*.txt`` next to them, without duplicates.
     """
-    files = {source / font.path for font in brand.fonts}
+    files = {source / font.path for font in brand.fonts} | {source / logo for logo in brand.logos}
     for font in brand.fonts:
         files.update((source / font.path).parent.glob("OFL-*.txt"))
     return sorted(files)
@@ -62,9 +62,10 @@ def sync_project(root: Path) -> list[Path]:
     for extension in extension_dirs(root):
         shutil.copyfile(root / "brand.yml", extension / "brand.yml")
         write_tokens(brand, extension / "tokens")
-        (extension / "fonts").mkdir(exist_ok=True)
-        for font in _font_files(brand, root):
-            shutil.copyfile(font, extension / "fonts" / font.name)
+        for file in _font_files(brand, root):
+            target = extension / file.relative_to(root)
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(file, target)
         updated.append(extension)
     return updated
 
@@ -102,11 +103,11 @@ def _check_extension(root: Path, brand: Brand, extension: Path) -> list[str]:
         problems.append(f"{copy} differs from brand.yml; run `make sync`")
     problems.extend(check_tokens(brand, extension / "tokens"))
     listed = _listed_resources(extension)
-    for font in _font_files(brand, root):
-        shipped = f"fonts/{font.name}"
+    for file in _font_files(brand, root):
+        shipped = file.relative_to(root).as_posix()
         if not (extension / shipped).is_file():
             problems.append(f"{extension / shipped} is missing; run `make sync`")
-        elif font.suffix == ".ttf" and shipped not in listed:
+        elif file.suffix in {".ttf", ".svg"} and shipped not in listed:
             problems.append(f"{extension / '_extension.yml'} does not list {shipped} under format-resources")
     return problems
 

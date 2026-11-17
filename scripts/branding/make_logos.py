@@ -29,9 +29,9 @@ BODY = (
     "M 24 55 C 25 39 42 29 61 30 C 73 31 83 34 89 27 C 93 22 99 22 102 27 "
     "C 105 33 114 39 113 46 C 112 52 101 55 93 54 C 86 54 82 61 74 65 C 62 72 37 73 26 63 Z"
 )
-TAIL = "M 27 58 C 12 63 5 52 14 45 C 21 40 31 45 27 52 C 25 55 20 53 21 50"
-FRONT_LEG = "M 76 64 L 79 78 C 79 82 85 82 85 78"
-HIND_LEG = "M 46 69 L 43 80 C 42 84 36 83 37 79"
+TAIL = "M 26 57 C 11 62 5 48 16 43 C 25 40 32 48 25 52"
+FRONT_LEG = "M 76 64 L 78 79 M 72 80 C 75 84 82 84 85 80"
+HIND_LEG = "M 46 69 L 44 80 M 39 81 C 42 85 49 85 51 81"
 BRANCH = "M 4 84 C 40 80 80 83 116 79"
 CASQUE = "M 93 27 C 95 18 103 17 105 24"
 
@@ -147,6 +147,29 @@ def lockup(brand, fonts: Path, *, dark: bool) -> str:
     return svg(470, 112, body, background=brand.colour("ink") if dark else None)
 
 
+def favicon(brand) -> str:
+    """Build the small icon: the four patches as a stripe and the orange head with its eye, legible at 16 pixels.
+
+    Args:
+        brand: The brand.
+
+    Returns:
+        The SVG text.
+    """
+    slate, deep, blue, orange = (brand.colour(name) for name in ("slate", "blue-deep", "blue", "orange"))
+    ink, white = brand.colour("ink"), brand.colour("white")
+    stripes = "".join(
+        f'<rect x="{left}" y="30" width="9" height="22" fill="{colour}"/>'
+        for colour, left in ((slate, 8), (deep, 17), (blue, 26))
+    )
+    body = (
+        f'<rect width="64" height="64" rx="12" fill="{ink}"/>{stripes}'
+        f'<path d="M 35 52 L 35 30 C 35 22 41 16 49 16 C 55 16 58 21 58 27 C 58 34 52 38 47 52 Z" fill="{orange}"/>'
+        f'<circle cx="49" cy="28" r="5.2" fill="{white}"/><circle cx="50" cy="28" r="2.6" fill="{ink}"/>'
+    )
+    return svg(64, 64, body)
+
+
 def write_all(out: Path) -> list[Path]:
     """Write the logo set.
 
@@ -167,7 +190,7 @@ def write_all(out: Path) -> list[Path]:
         "avatar.svg": svg(
             120, 120, f'<g transform="translate(0 10)">{mark_group(brand, ground=brand.colour("ink"), dark=True)}</g>'
         ),
-        "favicon.svg": svg(120, 100, mark_group(brand, ground=brand.colour("ink"), dark=True)),
+        "favicon.svg": favicon(brand),
     }
     written = []
     for name, text in files.items():

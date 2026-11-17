@@ -14,6 +14,7 @@ def test_each_extension_carries_its_own_brand_tokens_and_fonts(project: Path):
     assert (extension / "tokens" / "colors.typ").is_file()
     assert (extension / "fonts" / "Jost-SemiBold.ttf").is_file()
     assert (extension / "fonts" / "OFL-Jost.txt").is_file()
+    assert (extension / "assets" / "logo.svg").is_file()
 
 
 def test_editing_the_brand_without_a_sync_is_reported(project: Path):
@@ -59,3 +60,11 @@ def test_the_command_syncs_then_checks(project: Path, capsys):
     (project / "tokens" / "colors.tex").write_text("edited\n", encoding="utf-8")
     assert main(["check", "--project", str(project)]) == 1
     assert "problem(s)" in capsys.readouterr().out
+
+
+def test_a_logo_not_listed_under_format_resources_is_reported(project: Path):
+    manifest = extension_dirs(project)[0] / "_extension.yml"
+    manifest.write_text(
+        manifest.read_text(encoding="utf-8").replace("        - assets/mark.svg\n", ""), encoding="utf-8"
+    )
+    assert any("does not list assets/mark.svg" in problem for problem in check_project(project))

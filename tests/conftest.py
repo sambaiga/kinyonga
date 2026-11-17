@@ -14,8 +14,11 @@ def project(tmp_path: Path) -> Path:
     for name in ("brand.yml", "kinyonga.yml"):
         shutil.copyfile(ROOT / name, tmp_path / name)
     shutil.copytree(ROOT / "fonts", tmp_path / "fonts")
+    shutil.copytree(ROOT / "assets", tmp_path / "assets")
     shutil.copytree(
-        ROOT / "_extensions", tmp_path / "_extensions", ignore=shutil.ignore_patterns("tokens", "fonts", "brand.yml")
+        ROOT / "_extensions",
+        tmp_path / "_extensions",
+        ignore=shutil.ignore_patterns("tokens", "fonts", "assets", "brand.yml"),
     )
     sync_project(tmp_path)
     return tmp_path
