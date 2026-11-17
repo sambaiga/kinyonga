@@ -188,7 +188,7 @@ def book_project(tmp_path_factory: pytest.TempPathFactory) -> Path:
     return created
 
 
-@pytest.mark.skipif(shutil.which("uv") is None, reason="needs uv")
+@pytest.mark.skipif(shutil.which("uv") is None or shutil.which("pdftotext") is None, reason="needs uv and poppler")
 def test_the_book_pdf_is_one_merged_book_in_the_brand_fonts(book_project: Path):
     pdf = book_project / "rendered_output" / "Sample-Book.pdf"
     fonts = subprocess.run(["pdffonts", str(pdf)], check=True, capture_output=True, text=True).stdout

@@ -65,15 +65,16 @@ repos:
       - id: check-yaml
       - id: detect-private-key
       - id: end-of-file-fixer
+        exclude: typst/packages/
       - id: trailing-whitespace
-        exclude: \.ipynb$
+        exclude: \.ipynb$|typst/packages/
 
   - repo: https://github.com/codespell-project/codespell
     rev: v2.4.2
     hooks:
       - id: codespell
         args: [--ignore-words=codespell.ignore]
-        exclude: bootstrap-icons
+        exclude: bootstrap-icons|typst/packages/
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.15.12
