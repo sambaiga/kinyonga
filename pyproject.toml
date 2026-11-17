@@ -33,6 +33,7 @@ packages = ["kinyonga"]
 "profiles" = "kinyonga/_data/profiles"
 "_extensions" = "kinyonga/_data/_extensions"
 "fonts" = "kinyonga/_data/fonts"
+"assets" = "kinyonga/_data/assets"
 "brand.yml" = "kinyonga/_data/brand.yml"
 "kinyonga.yml" = "kinyonga/_data/kinyonga.yml"
 
@@ -40,6 +41,7 @@ packages = ["kinyonga"]
 dev = [
     "quarto-cli>=1.11,<1.12",
     "types-pyyaml>=6.0",
+    "fonttools>=4.50",
     "pytest>=8.0",
     "pytest-cov>=5.0",
     "hypothesis>=6.100",
@@ -120,8 +122,7 @@ include = ["kinyonga", "tests", "scripts"]
 known_first_party = ["kinyonga"]
 
 [tool.deptry.per_rule_ignores]
-DEP002 = ["matplotlib"]  # the optional "plots" extra
-DEP004 = ["interrogate"]  # used by scripts/check_docstrings.py, a development tool
+DEP004 = ["interrogate", "fontTools"]  # development tools: scripts/check_docstrings.py and scripts/branding/make_logos.py
 
 [tool.bandit]
 exclude_dirs = ["tests"]
@@ -133,7 +134,7 @@ skips = [
 ]
 
 [tool.codespell]
-skip = "*.ipynb,*.csv,*.json,uv.lock"
+skip = "*.ipynb,*.csv,*.json,*.ttf,*.pdf,*.svg,uv.lock,tokens,fonts,assets"
 ignore-words = "codespell.ignore"
 
 [tool.commitizen]

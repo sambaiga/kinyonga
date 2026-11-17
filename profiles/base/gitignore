@@ -6,3 +6,8 @@ rendered_output/
 *.html
 !fonts/**
 .DS_Store
+# Quarto copies the files an extension lists under format-resources next to the document while it renders
+/*.ttf
+/logo.svg
+/logo-dark.svg
+/mark.svg

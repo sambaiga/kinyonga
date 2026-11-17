@@ -75,3 +75,10 @@ def test_missing_fonts_lists_declared_files_that_do_not_exist(tmp_path: Path):
 def test_settings_are_empty_when_the_file_is_absent(tmp_path: Path):
     assert load_settings(tmp_path / "kinyonga.yml") == {}
     assert "contrast" in load_settings(ROOT / "kinyonga.yml")
+
+
+def test_logos_are_read_and_checked_with_the_fonts(tmp_path: Path):
+    brand = load_brand(ROOT / "brand.yml")
+    assert brand.logos == ("assets/logo-dark.svg", "assets/logo.svg", "assets/mark.svg")
+    assert missing_fonts(brand, ROOT) == []
+    assert "assets/logo.svg" in missing_fonts(brand, tmp_path)
