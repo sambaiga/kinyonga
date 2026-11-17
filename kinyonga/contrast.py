@@ -1,6 +1,6 @@
 """WCAG contrast of the brand's text and background pairs."""
 
-from .brand import Brand
+from .brand import Brand, BrandError
 
 
 def _channel(value: int) -> float:
@@ -51,11 +51,15 @@ def check_contrast(brand: Brand, pairs: list[dict]) -> list[str]:
         pairs: Mappings with ``text``, ``background`` and ``minimum``.
 
     Returns:
-        One message for each pair below its minimum; empty when all pass.
+        One message for each pair below its minimum or naming an unknown colour; empty when all pass.
     """
     problems = []
     for pair in pairs:
-        ratio = contrast_ratio(brand.colour(pair["text"]), brand.colour(pair["background"]))
+        try:
+            ratio = contrast_ratio(brand.colour(pair["text"]), brand.colour(pair["background"]))
+        except BrandError as error:
+            problems.append(f"contrast pair {pair['text']} on {pair['background']}: {error}")
+            continue
         if ratio < float(pair["minimum"]):
             problems.append(
                 f"{pair['text']} on {pair['background']} has contrast {ratio:.2f}, below {float(pair['minimum']):.1f}"

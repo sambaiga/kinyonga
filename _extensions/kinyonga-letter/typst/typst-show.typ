@@ -13,16 +13,16 @@ $-- Quarto emits the body itself after this partial; the show rule below receive
   signatory: none,
   doc,
 ) = {
-  let blue = brand-color.blue
-  let ink = brand-color.foreground
-  let slate = brand-color.slate
-  let rule = brand-color.rule
+  let blue = brand-color.at("blue", default: brand-color.at("primary", default: rgb("#0369A1")))
+  let ink = brand-color.at("foreground", default: luma(30))
+  let slate = brand-color.at("slate", default: luma(110))
+  let rule = brand-color.at("rule", default: luma(226))
   set page(
     paper: "a4",
     margin: (top: 3.4cm, bottom: 2.6cm, x: 2.4cm),
     numbering: none,
     background: place(top + left, rect(width: 100%, height: 0.5cm, fill: blue, stroke: none)),
-    footer: align(center, text(size: 8pt, fill: slate, contact.join([  ·  ]))),
+    footer: if contact.len() > 0 { align(center, text(size: 8pt, fill: slate, contact.join([  ·  ]))) },
   )
   set par(justify: false, leading: 0.7em)
   set text(font: $if(brand.typography.base.family)$$brand.typography.base.family$$else$"Libre Franklin"$endif$, size: 10.5pt, fill: ink)

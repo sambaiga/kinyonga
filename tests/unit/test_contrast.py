@@ -29,3 +29,9 @@ def test_a_pair_below_its_minimum_is_reported():
     problems = check_contrast(brand, [{"text": "slate-light", "background": "white", "minimum": 4.5}])
     assert len(problems) == 1
     assert "slate-light on white" in problems[0]
+
+
+def test_a_pair_naming_an_unknown_colour_is_reported_not_raised():
+    brand = load_brand(ROOT / "brand.yml")
+    problems = check_contrast(brand, [{"text": "magenta", "background": "white", "minimum": 4.5}])
+    assert problems == ["contrast pair magenta on white: unknown colour or role 'magenta'"]

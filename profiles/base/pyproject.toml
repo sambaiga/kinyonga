@@ -26,7 +26,7 @@ default-groups = ["dev"]
 
 [tool.codespell]
 ignore-words = "codespell.ignore"
-skip = "*.ttf,*.svg,uv.lock,tokens,fonts"
+skip = "*.ttf,*.pdf,*.svg,uv.lock,tokens,fonts,rendered_output,.quarto,_freeze,.venv"
 
 [tool.commitizen]
 name = "cz_conventional_commits"
