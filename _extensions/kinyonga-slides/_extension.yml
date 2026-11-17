@@ -1,0 +1,55 @@
+# kinyonga slides: a reveal.js deck in the kinyonga brand, 16:9, with the shared components of the book.
+#
+# One extension per document kind: Quarto splits `kinyonga-slides-revealjs` at the last hyphen, so an extension can
+# give one format per base format. brand.yml, tokens/, shared/ and fonts/ here are copies written by `kinyonga
+# sync`; never edit them. The theme reads colours only from tokens/. Bootstrap Icons (MIT) are vendored in
+# bootstrap-icons/ (the font is inlined in the stylesheet) and loaded in the header, so a deck works offline.
+#
+# `remote.js` belongs to the phone-remote tool (`slides remote`, from slides-template); the script does nothing, and
+# the browser only notes a missing file, when the deck is opened without that server.
+
+title: kinyonga slides
+author: sambaiga
+version: 0.1.0
+quarto-required: ">=1.9.0"
+
+contributes:
+  metadata:
+    project:
+      brand: brand.yml
+
+  formats:
+    revealjs:
+      theme:
+        - default
+        - scss/kinyonga-slides.scss
+      width: 1280
+      height: 720
+      margin: 0.05
+      center: false
+      transition: none
+      background-transition: none
+      slide-number: c/t
+      progress: true
+      controls: true
+      controls-layout: bottom-right
+      hash: true
+      html-math-method: plain
+      logo: false
+      include-in-header:
+        text: |
+          <link rel="stylesheet" href="_extensions/kinyonga-slides/bootstrap-icons/bootstrap-icons.min.css">
+          <script src="remote.js?v=1" defer></script>
+      format-resources:
+        - bootstrap-icons/bootstrap-icons.min.css
+        - assets/logo.svg
+        - assets/logo-dark.svg
+        - assets/mark.svg
+        - fonts/Jost-Regular.ttf
+        - fonts/Jost-SemiBold.ttf
+        - fonts/Jost-Bold.ttf
+        - fonts/LibreFranklin-Regular.ttf
+        - fonts/LibreFranklin-Medium.ttf
+        - fonts/LibreFranklin-Italic.ttf
+        - fonts/LibreFranklin-SemiBold.ttf
+        - fonts/LibreFranklin-SemiBoldItalic.ttf

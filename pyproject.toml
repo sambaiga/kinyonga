@@ -35,6 +35,7 @@ packages = ["kinyonga"]
 "fonts" = "kinyonga/_data/fonts"
 "assets" = "kinyonga/_data/assets"
 "icons" = "kinyonga/_data/icons"
+"shared" = "kinyonga/_data/shared"
 "brand.yml" = "kinyonga/_data/brand.yml"
 "kinyonga.yml" = "kinyonga/_data/kinyonga.yml"
 

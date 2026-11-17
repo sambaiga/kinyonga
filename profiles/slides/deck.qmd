@@ -1,0 +1,124 @@
+---
+pagetitle: "Sample Author talk"
+footer: "Sample Author talk"
+format: kinyonga-slides-revealjs
+---
+
+## {.title-slide-custom data-state="cover"}
+
+<div class="title-top">Event or course · Place · Date</div>
+
+<div class="title-box">
+<p class="t">Sample Author talk</p>
+<p class="a"><b>Author name</b></p>
+<p class="a">Supervisor or affiliation</p>
+<p class="c"><i class="bi bi-envelope"></i> name@example.org</p>
+</div>
+
+::: notes
+[0:30] Greet the audience, state the title and say in one sentence what the talk will show.
+:::
+
+## Outline {.acc-blue}
+
+<div class="runhead">Outline</div>
+
+<div class="cards c3">
+<div class="card blue"><h4><i class="bi bi-question-circle"></i>The question</h4><p>Why it matters, in one sentence.</p></div>
+<div class="card blue"><h4><i class="bi bi-diagram-3"></i>The method</h4><p>What was done, in one sentence.</p></div>
+<div class="card blue"><h4><i class="bi bi-check2-circle"></i>The answer</h4><p>What was found and what it means.</p></div>
+</div>
+
+<div class="say aim">One sentence that states the claim of the talk.</div>
+
+::: notes
+[0:30] Walk through the three parts and name the claim.
+:::
+
+## A content slide: a figure, three findings and what they mean {.acc-blue}
+
+<div class="runhead"><b>Part 1</b> · Result</div>
+
+::: {.split .f60 .mid}
+:::: {}
+![](figures/example.svg){height="330"}
+<p class="cap">Caption: what the figure shows, the data and the unit.</p>
+::::
+:::: {}
+<div class="findings">
+<div class="f key"><span class="n">42%</span><br>a headline number with its meaning</div>
+<div class="f key"><b>A second finding</b> in one line</div>
+<div class="f"><b>A caveat</b> stated beside the result</div>
+</div>
+::::
+:::
+
+<div class="say impl">What the result means for the audience, in one or two lines.</div>
+
+<p class="src">Source: data set and period.</p>
+
+::: notes
+[1:30] Say what the figure shows, then the first finding, then the implication. Keep to the planned time.
+:::
+
+## A table slide {.acc-blue}
+
+<div class="runhead">Part 1 · Comparison</div>
+
+<table class="grid">
+<tr><th>Option</th><th>What it needs</th><th style="text-align:right">Result</th></tr>
+<tr><td class="strong">Option A</td><td class="dim">A short description</td><td class="r">Best</td></tr>
+<tr><td class="strong">Option B</td><td class="dim">A short description</td><td class="r">Second</td></tr>
+</table>
+
+<div class="stats c3">
+<div class="stat-card"><div class="v">12 ms</div><div class="l">a key number and its label</div></div>
+<div class="stat-card"><div class="v">3×</div><div class="l">a second number</div></div>
+<div class="stat-card"><div class="v">95%</div><div class="l">a third number</div></div>
+</div>
+
+::: notes
+[1:00] Read the table by its conclusion, not row by row.
+:::
+
+## {background-color="#0C4A6E" .divider-slide}
+
+<div class="divider"><div class="num">2</div><p class="act">Part 2 · Slides 5 to 7</p><p class="dq">The question of this part, in the words of the audience</p><p class="op"><span>Formal question</span>The precise research or project question.</p><div class="prog"><i class="on"></i><i class="on"></i><i></i></div></div>
+
+::: notes
+[0:10] One sentence that introduces the part.
+:::
+
+## Conclusions {.acc-blue}
+
+<div class="runhead">Conclusion</div>
+
+<div class="cards c3">
+<div class="card blue"><h4><i class="bi bi-check2-circle"></i>Shown</h4><ul><li>What the work demonstrates</li></ul></div>
+<div class="card"><h4><i class="bi bi-arrow-right-circle"></i>Enabled</h4><ul><li>What it makes possible</li></ul></div>
+<div class="card" style="border-top-color:var(--orange);"><h4><i class="bi bi-exclamation-circle"></i>Limits</h4><ul><li>What it does not show</li></ul></div>
+</div>
+
+::: notes
+[1:00] Separate what was shown from what is only enabled, and state the limits first.
+:::
+
+## {background-color="var(--blue-deep)"}
+
+<div class="closing">
+<p class="t">Thank you</p>
+<p class="s">Questions are welcome</p>
+<p class="u">name@example.org</p>
+</div>
+
+::: notes
+[0:20] Closing sentence, then invite questions.
+:::
+
+<!-- ============================ BACKUP ============================ -->
+
+## Backup: a detail for questions
+
+<p class="backup">Backup</p>
+
+- A fact or a table that is only needed if someone asks.

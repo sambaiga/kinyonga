@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" role="img" aria-label="Example line chart">
+  <rect width="640" height="300" fill="#ffffff"/>
+  <line x1="50" y1="250" x2="620" y2="250" stroke="#64748B" stroke-width="1.2"/>
+  <line x1="50" y1="30" x2="50" y2="250" stroke="#64748B" stroke-width="1.2"/>
+  <polyline fill="none" stroke="#0369A1" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"
+    points="50,200 130,170 210,185 290,120 370,140 450,80 530,95 620,50"/>
+  <circle cx="450" cy="80" r="7" fill="#E26029"/>
+  <text x="462" y="72" font-family="Jost, sans-serif" font-size="18" fill="#A94A1E">Notice this point</text>
+  <text x="335" y="285" font-family="Libre Franklin, sans-serif" font-size="15" fill="#334155" text-anchor="middle">Time</text>
+  <text x="16" y="140" font-family="Libre Franklin, sans-serif" font-size="15" fill="#334155" transform="rotate(-90 16 140)" text-anchor="middle">Value</text>
+</svg>

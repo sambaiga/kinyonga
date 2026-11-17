@@ -16,10 +16,11 @@ def project(tmp_path: Path) -> Path:
     shutil.copytree(ROOT / "fonts", tmp_path / "fonts")
     shutil.copytree(ROOT / "assets", tmp_path / "assets")
     shutil.copytree(ROOT / "icons", tmp_path / "icons")
+    shutil.copytree(ROOT / "shared", tmp_path / "shared")
     shutil.copytree(
         ROOT / "_extensions",
         tmp_path / "_extensions",
-        ignore=shutil.ignore_patterns("tokens", "fonts", "assets", "icons", "brand.yml"),
+        ignore=shutil.ignore_patterns("tokens", "fonts", "assets", "icons", "shared", "brand.yml"),
     )
     sync_project(tmp_path)
     return tmp_path

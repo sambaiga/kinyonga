@@ -37,9 +37,11 @@ contributes:
         - assets/logo.svg
         - assets/logo-dark.svg
         - assets/mark.svg
+        - fonts/Jost-Regular.ttf
         - fonts/Jost-SemiBold.ttf
         - fonts/Jost-Bold.ttf
         - fonts/LibreFranklin-Regular.ttf
+        - fonts/LibreFranklin-Medium.ttf
         - fonts/LibreFranklin-Italic.ttf
         - fonts/LibreFranklin-SemiBold.ttf
         - fonts/LibreFranklin-SemiBoldItalic.ttf
@@ -63,9 +65,11 @@ contributes:
         - assets/logo.svg
         - assets/logo-dark.svg
         - assets/mark.svg
+        - fonts/Jost-Regular.ttf
         - fonts/Jost-SemiBold.ttf
         - fonts/Jost-Bold.ttf
         - fonts/LibreFranklin-Regular.ttf
+        - fonts/LibreFranklin-Medium.ttf
         - fonts/LibreFranklin-Italic.ttf
         - fonts/LibreFranklin-SemiBold.ttf
         - fonts/LibreFranklin-SemiBoldItalic.ttf

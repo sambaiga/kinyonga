@@ -16,7 +16,7 @@ cd my-letter && uv sync && make check && make all
 |---|---|---|
 | `letter` | A letterhead letter in Typst; sender and contact line from `profile.yml` | ready |
 | `cv` | An ATS-friendly CV from `cv.yml`: a tagged PDF that validates as PDF/UA (Typst) and an HTML page; `make ats` for an edition with spelled-out labels and no icons | ready |
-| `slides` | A reveal.js deck with the shared components, click PDF and phone remote | planned |
+| `slides` | A reveal.js deck in the brand: cover, dividers, cards, key numbers, takeaway bar, tables; `make timing` adds up the `[m:ss]` marks of the speaker notes. The click-by-click PDF and the phone remote stay in `slides-template` (`slides clicks`, `slides remote`) and work on the rendered deck | ready |
 | `book` | A book in HTML and PDF (LaTeX for print, Typst for review) | planned |
 
 ## What every project gets
@@ -31,8 +31,9 @@ cd my-letter && uv sync && make check && make all
 ```text
 brand.yml  kinyonga.yml  fonts/     the one brand, the contrast pairs, the vendored OFL fonts (Jost, Libre Franklin)
 tokens/                              generated from brand.yml: _tokens.scss, tokens.css, colors.typ, colors.tex
-_extensions/kinyonga-letter, -cv/     one extension per document kind (Quarto allows one format per base format)
+_extensions/kinyonga-letter, -cv, -slides/  one extension per document kind (Quarto allows one format per base format)
 icons/                               Bootstrap Icons as SVG (MIT); sync ships brand-coloured copies with the CV extension
+shared/                              SCSS mixins (takeaway bar, card, key number) that the slides and the book share
 profiles/base, profiles/letter       real, runnable projects; the generator copies base, then the profile
 kinyonga/                            the generator and the brand tools (sync, check, contrast), with tests
 ```

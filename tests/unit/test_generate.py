@@ -63,3 +63,14 @@ def test_a_new_cv_project_has_its_data_icons_and_extra_target_and_passes_the_che
 def test_a_letter_project_does_not_carry_the_icons(tmp_path: Path):
     created = new_project(Project("my-letter", "letter"), tmp_path / "my-letter", git=False)
     assert not (created / "icons").exists()
+
+
+def test_a_new_slides_project_has_its_deck_shared_components_and_timing_target(tmp_path: Path):
+    created = new_project(Project("my-talk", "slides", author="A. Writer"), tmp_path / "my-talk", git=False)
+    assert (created / "deck.qmd").is_file()
+    assert (created / "profile.mk").read_text(encoding="utf-8").startswith("# Extra targets of the slides profile")
+    assert (created / "shared" / "_components.scss").is_file()
+    assert (created / "_extensions" / "kinyonga-slides" / "scss" / "kinyonga-slides.scss").is_file()
+    assert (created / "_extensions" / "kinyonga-slides" / "shared" / "_components.scss").is_file()
+    assert not (created / "icons").exists()
+    assert check_project(created) == []

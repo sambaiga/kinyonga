@@ -135,3 +135,43 @@ def test_the_cv_pdf_validates_as_pdf_ua(cv_project: Path):
         assert not os.environ.get("KINYONGA_REQUIRE_VERAPDF"), "veraPDF is required here: `quarto install verapdf`"
         pytest.skip("veraPDF is not installed")
     assert "PASSED" in output
+
+
+@pytest.fixture(scope="module")
+def slides_project(tmp_path_factory: pytest.TempPathFactory) -> Path:
+    """A generated slides project, rendered with the pinned Quarto."""
+    created = new_project(
+        Project("my-talk", "slides", author="Test Person"), tmp_path_factory.mktemp("sl") / "my-talk", git=False
+    )
+    subprocess.run(["uv", "sync"], cwd=created, check=True, capture_output=True)
+    subprocess.run(["make", "deck"], cwd=created, check=True, capture_output=True)
+    return created
+
+
+@pytest.mark.skipif(shutil.which("uv") is None, reason="needs uv")
+def test_the_deck_renders_in_the_brand_with_one_cover_and_no_page_logo(slides_project: Path):
+    html = (slides_project / "rendered_output" / "deck.html").read_text(encoding="utf-8")
+    assert "<section" in html
+    assert html.count("title-slide-custom") >= 1
+    assert "slide-logo" not in html
+    assert 'class="quarto-title-block"' not in html
+    css = "".join(
+        path.read_text(encoding="utf-8") for path in (slides_project / "rendered_output").rglob("quarto-*.css")
+    )
+    assert "Jost" in css
+    assert "Libre Franklin" in css
+    # .acc-orange switches to orange (it used to point at blue); the orange comes from the brand tokens
+    assert "section.acc-orange{--acc:var(--orange)" in css.replace(" ", "")
+    assert "--orange:#e26029" in css.replace(" ", "").lower()
+    # the icon font is inlined, so the deck works offline
+    assert "data:font/woff2;base64" in "".join(
+        path.read_text(encoding="utf-8")
+        for path in (slides_project / "rendered_output").rglob("bootstrap-icons.min.css")
+    )
+
+
+@pytest.mark.skipif(shutil.which("uv") is None, reason="needs uv")
+def test_make_timing_adds_up_the_notes_of_the_starter_deck(slides_project: Path):
+    output = subprocess.run(["make", "timing"], cwd=slides_project, check=True, capture_output=True, text=True).stdout
+    assert "| Slide | Title | Target | Clock |" in output
+    assert "Planned total" in output
