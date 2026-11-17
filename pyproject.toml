@@ -125,7 +125,12 @@ DEP004 = ["interrogate"]  # used by scripts/check_docstrings.py, a development t
 
 [tool.bandit]
 exclude_dirs = ["tests"]
-skips = ["B101"]
+skips = [
+    "B101",  # assert statements
+    "B404",  # subprocess import: informational only
+    "B603",  # subprocess without shell=True with fixed argument lists
+    "B607",  # partial executable path (git)
+]
 
 [tool.codespell]
 skip = "*.ipynb,*.csv,*.json,uv.lock"
