@@ -50,7 +50,7 @@
 #let part-change = state("part-change", false)
 
 #let part(title) = {
-  pagebreak(to: "odd")
+  pagebreak()
   part-change.update(x =>
     true
   )
@@ -421,7 +421,7 @@
   show heading: it => {
     set text(size: font-size)
     if it.level == 1 {
-      pagebreak(to: "odd")
+      pagebreak()
       //set par(justify: false)
       counter(figure.where(kind: image)).update(0)
       counter(figure.where(kind: table)).update(0)

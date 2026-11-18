@@ -23,6 +23,7 @@ $if(lang)$
   lang: "$lang$",
 $endif$
   main-color: brand-color.at("primary", default: blue),
+  cover-background: brand-color.at("primary", default: blue).lighten(88%),
   logo: {
     let logo-info = brand-logo.at("medium", default: none)
     if logo-info != none { image(logo-info.path, alt: logo-info.at("alt", default: none)) }
