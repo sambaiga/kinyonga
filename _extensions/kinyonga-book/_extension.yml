@@ -92,8 +92,13 @@ contributes:
 
     html:
       theme:
-        - brand
-        - scss/kinyonga-book.scss
+        light:
+          - brand
+          - scss/kinyonga-book.scss
+        dark:
+          - brand
+          - scss/kinyonga-book.scss
+          - scss/kinyonga-book-dark.scss
       toc: true
       number-sections: true
       format-resources:

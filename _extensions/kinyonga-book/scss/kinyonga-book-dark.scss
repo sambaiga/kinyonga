@@ -1,0 +1,25 @@
+/*-- scss:defaults --*/
+@import "../tokens/tokens";
+
+// Dark edition of the web book: ink for the page, the pale rule colour for text, the soft blue for links. Only tokens
+// are used, so the dark pair follows brand.yml like the light one.
+$body-bg: $kn-ink;
+$body-color: $kn-rule;
+$link-color: $kn-blue-soft;
+$link-color-hover: $kn-white;
+$headings-color: $kn-white;
+
+/*-- scss:rules --*/
+h1.title {
+  color: $kn-white;
+}
+
+.sidebar nav[role="doc-toc"] a.active {
+  color: $kn-blue-soft;
+}
+
+.takeaway,
+.card,
+.stat {
+  color: $kn-ink;
+}
