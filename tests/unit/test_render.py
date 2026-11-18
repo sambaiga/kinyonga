@@ -192,7 +192,8 @@ def book_project(tmp_path_factory: pytest.TempPathFactory) -> Path:
     subprocess.run(["uv", "sync"], cwd=created, check=True, capture_output=True)
     subprocess.run(["make", "review"], cwd=created, check=True, capture_output=True)
     if has_latex():
-        subprocess.run(["make", "book"], cwd=created, check=True, capture_output=True)
+        done = subprocess.run(["make", "book"], cwd=created, capture_output=True, text=True)
+        assert done.returncode == 0, done.stdout[-3000:] + done.stderr[-3000:]
     return created
 
 
