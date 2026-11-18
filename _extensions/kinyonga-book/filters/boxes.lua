@@ -3,6 +3,13 @@
 -- into Quarto callouts (a note, a tip and an important box, made with quarto.Callout), so the LaTeX and Typst writers draw them in the brand colours. Without it
 -- Pandoc gives the Div no environment and the box reaches the PDF as loose text.
 
+-- Colours of the LaTeX box, as names from tokens/colors.tex: accent edge, fill and title colour.
+local LATEX = {
+  note = { "knBlue", "knTintBlue", "knBlue" },
+  tip = { "knSuccess", "knTintGreen", "knGreenInk" },
+  important = { "knDanger", "knTintRed", "knRedDeep" },
+}
+
 local KINDS = {
   remarkbox = { callout = "note", fallback = "Remark", title = "remark-title" },
   pitfall = { callout = "important", fallback = "Pitfall", title = "pitfall-title" },
@@ -34,6 +41,13 @@ function Div(el)
     local kind = KINDS[class]
     if kind then
       local title = take_title(el.content, kind.title) or kind.fallback
+      if FORMAT:match("latex") then
+        local c = LATEX[kind.callout]
+        local open = string.format("\\begin{knbox}{%s}{%s}{%s}{%s}", c[1], c[2], c[3], (title:gsub("([&%%%$#_{}])", "\\%1")))
+        table.insert(el.content, 1, pandoc.RawBlock("latex", open))
+        table.insert(el.content, pandoc.RawBlock("latex", "\\end{knbox}"))
+        return el
+      end
       return quarto.Callout({ type = kind.callout, title = title, content = el.content, appearance = "default", icon = false })
     end
   end
