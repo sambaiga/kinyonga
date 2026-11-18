@@ -83,9 +83,21 @@ typography:
         - path: fonts/LibreFranklin-SemiBoldItalic.ttf
           weight: 600
           style: italic
+    - family: JetBrains Mono
+      source: file
+      files:
+        - path: fonts/JetBrainsMono-Regular.ttf
+          weight: 400
+          style: normal
+        - path: fonts/JetBrainsMono-Bold.ttf
+          weight: 700
+          style: normal
   base:
     family: Libre Franklin
     weight: 400
   headings:
     family: Jost
     weight: 600
+  monospace:
+    family: JetBrains Mono
+    weight: 400

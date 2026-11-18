@@ -27,6 +27,8 @@ contributes:
         - page.typ
         - typst-show.typ
       filters:
+        - path: filters/boxes.lua
+          at: pre-quarto
         - path: orange-book.lua
           at: post-quarto
       format-resources:
@@ -38,6 +40,8 @@ contributes:
         - fonts/LibreFranklin-Italic.ttf
         - fonts/LibreFranklin-SemiBold.ttf
         - fonts/LibreFranklin-SemiBoldItalic.ttf
+        - fonts/JetBrainsMono-Regular.ttf
+        - fonts/JetBrainsMono-Bold.ttf
         - assets/logo.svg
         - assets/logo-dark.svg
         - assets/mark.svg
@@ -68,6 +72,9 @@ contributes:
         - left=2.6cm
         - right=2.6cm
       keep-tex: true
+      filters:
+        - path: filters/boxes.lua
+          at: pre-quarto
       include-in-header:
         - tokens/colors.tex
         - latex/fonts.tex
@@ -86,6 +93,8 @@ contributes:
         - fonts/LibreFranklin-Italic.ttf
         - fonts/LibreFranklin-SemiBold.ttf
         - fonts/LibreFranklin-SemiBoldItalic.ttf
+        - fonts/JetBrainsMono-Regular.ttf
+        - fonts/JetBrainsMono-Bold.ttf
         - assets/logo.svg
         - assets/logo-dark.svg
         - assets/mark.svg
@@ -110,6 +119,8 @@ contributes:
         - fonts/LibreFranklin-Italic.ttf
         - fonts/LibreFranklin-SemiBold.ttf
         - fonts/LibreFranklin-SemiBoldItalic.ttf
+        - fonts/JetBrainsMono-Regular.ttf
+        - fonts/JetBrainsMono-Bold.ttf
         - assets/logo.svg
         - assets/logo-dark.svg
         - assets/mark.svg

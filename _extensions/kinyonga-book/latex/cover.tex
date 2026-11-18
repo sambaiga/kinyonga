@@ -10,6 +10,11 @@
 \AddToShipoutPictureBG*{%
   \begin{tikzpicture}[remember picture, overlay]
     \fill[knInk] (current page.south west) rectangle (current page.north east);
+    % An optional full-bleed cover picture: put a PDF at assets/cover.pdf in the project.
+    \IfFileExists{assets/cover.pdf}{%
+      \node[anchor=south west, inner sep=0pt] at (current page.south west) {%
+        \includegraphics[width=\paperwidth, height=\paperheight]{assets/cover.pdf}};
+    }{}
   \end{tikzpicture}%
 }
 \begin{tikzpicture}[remember picture, overlay]

@@ -201,7 +201,7 @@ def book_pdf_problems(pdf: Path) -> list[str]:
     """Report what is wrong with a rendered book PDF: its fonts, its chapters and its numbered figure and table."""
     fonts = subprocess.run(["pdffonts", str(pdf)], check=True, capture_output=True, text=True).stdout
     text = pdf_text(pdf)
-    problems = [f"{name} is not embedded" for name in ("Jost", "LibreFranklin") if name not in fonts]
+    problems = [f"{name} is not embedded" for name in ("Jost", "LibreFranklin", "JetBrainsMono") if name not in fonts]
     problems += [f"{name} is used" for name in ("Libertinus", "Helvetica") if name in fonts]
     problems += [
         f"{phrase!r} is missing"

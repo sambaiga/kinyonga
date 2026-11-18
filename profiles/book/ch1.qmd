@@ -26,3 +26,9 @@ A callout carries a short remark that a reader may skip without losing the argum
 ## A section {#sec-section}
 
 Sections are numbered from the chapter, so this is section 1.1; see also @sec-second.
+
+Code is set in JetBrains Mono:
+
+```python
+series = [2, 4, 8]
+```
