@@ -2,6 +2,7 @@
 __pycache__/
 .quarto/
 rendered_output/
+rendered_review/
 *.pdf
 *.html
 !fonts/**

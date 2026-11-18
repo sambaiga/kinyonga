@@ -1,4 +1,5 @@
-# A Quarto book. Render the web edition and the print edition with `make book`.
+# A Quarto book. `make book` renders the web edition (HTML) and the print edition (LaTeX); `make review` renders the
+# fast Typst edition into its own folder, because both PDF editions would otherwise write the same file name.
 project:
   type: book
   output-dir: rendered_output
@@ -20,7 +21,7 @@ bibliography: references.bib
 
 format:
   kinyonga-book-html: default
-  kinyonga-book-typst: default
+  kinyonga-book-pdf: default
 
 execute:
   freeze: auto

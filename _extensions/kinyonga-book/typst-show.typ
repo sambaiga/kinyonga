@@ -1,5 +1,11 @@
 #import "@preview/orange-book:0.7.1": book, part, chapter, appendices
 
+// The brand body font replaces the book format's own serif; it is set before the book so that the cover, the contents and the
+// page numbers take it too.
+#set text(font: $if(brand.typography.base.family)$$brand.typography.base.family$$else$("Libre Franklin",)$endif$, size: 10pt)
+#show link: set text(fill: brand-color.primary)
+
+
 #show: book.with(
 $if(title)$
   title: [$title$],
@@ -49,10 +55,6 @@ $if(margin-geometry)$
   padded-heading-number: false,
 $endif$
 )
-
-// The brand body font replaces the book format's own serif.
-#set text(font: $if(brand.typography.base.family)$$brand.typography.base.family$$else$("Libre Franklin",)$endif$, size: 10pt)
-#show link: set text(fill: brand-color.primary)
 
 $if(margin-geometry)$
 // Configure marginalia page geometry for book context

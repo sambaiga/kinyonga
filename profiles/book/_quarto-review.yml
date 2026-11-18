@@ -1,0 +1,6 @@
+# The review profile: `make review` renders the Typst edition into rendered_review.
+project:
+  output-dir: rendered_review
+
+format:
+  kinyonga-book-typst: default
