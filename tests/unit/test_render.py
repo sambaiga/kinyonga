@@ -224,7 +224,11 @@ def test_the_latex_book_is_in_the_brand_fonts_with_a_cover_and_contents(book_pro
     pdf = book_project / "rendered_output" / "Sample-Book.pdf"
     problems = [p for p in book_pdf_problems(pdf) if "Helvetica" not in p]
     assert problems == []
-    assert "Table of contents" in pdf_text(pdf)
+    text = pdf_text(pdf)
+    assert "Table of contents" in text
+    back = [page for page in text.split("\f") if page.strip()][-1]
+    assert "Sample Book" in back
+    assert "©" in back
 
 
 @pytest.mark.skipif(shutil.which("uv") is None or not has_latex(), reason="needs uv and LaTeX")
