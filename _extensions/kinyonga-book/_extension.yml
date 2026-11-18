@@ -5,11 +5,13 @@
 # sync`; never edit them. The Typst format follows the structure of the bundled orange-book extension (MIT, with its
 # Typst package and marginalia, Unlicense, vendored in typst/), which Quarto needs to merge the chapters into one
 # book; the colour comes from brand.yml. The HTML theme reads colours only from tokens/. The extension does not set the
+# The landing-page components (cover hero, roadmap, author page) are in scss/kinyonga-book-landing.scss and its dark twin,
+# which a book adds to its theme when it has such a page. The extension does not set the
 # project brand: a book names its own in _quarto.yml (`project: brand:`), so an existing book keeps its own logo.
 
 title: kinyonga book
 author: sambaiga
-version: 0.1.0
+version: 0.1.1
 quarto-required: ">=1.9.17"
 
 contributes:
