@@ -99,10 +99,14 @@ jobs:
         run: uv sync --locked
       - name: Install veraPDF, which validates the CV PDF as PDF/UA
         run: uv run quarto install verapdf --no-prompt
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
       - name: Install poppler (pdffonts, pdftotext) and rsvg-convert (SVG figures in the LaTeX book)
         run: sudo apt-get update && sudo apt-get install -y --no-install-recommends poppler-utils librsvg2-bin
       - name: Install TinyTeX, which prints the LaTeX edition of the book
         run: uv run quarto install tinytex --no-prompt
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
       - name: Generate each profile, render it and check the output
         run: make verify
         env:
