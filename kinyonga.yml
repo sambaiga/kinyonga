@@ -16,3 +16,6 @@ contrast:
   - {text: white, background: blue-deep, minimum: 4.5}
   - {text: danger, background: white, minimum: 4.5}
   - {text: success, background: white, minimum: 3.0}
+  - {text: rule, background: ink, minimum: 4.5}
+  - {text: blue-soft, background: ink, minimum: 4.5}
+  - {text: white, background: ink, minimum: 4.5}
