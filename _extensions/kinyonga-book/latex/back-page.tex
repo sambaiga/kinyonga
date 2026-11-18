@@ -31,7 +31,10 @@
       \vspace{8pt}
       {\rmfamily\fontsize{10}{14}\selectfont\color{white!70}\@author}\par
       \vspace{1.5cm}
-      \ifx\bookweb\empty\else{\rmfamily\fontsize{9}{14}\selectfont\color{white!75}\bookweb}\par\fi
+      \ifx\bookweb\empty\else{\rmfamily\fontsize{9}{14}\selectfont\color{white!75}Read the live edition at\par
+        \vspace{3pt}{\color{knOrange}\bookweb}}\par\fi
+      \ifx\bookrepo\empty\else\vspace{10pt}{\rmfamily\fontsize{9}{14}\selectfont\color{white!75}Source\par
+        \vspace{3pt}{\color{knOrange}\bookrepo}}\par\fi
     \end{minipage}};
   \node[anchor=south, yshift=2.0cm] at (current page.south) {%
     {\rmfamily\fontsize{7.5}{9}\selectfont\color{white!50}%

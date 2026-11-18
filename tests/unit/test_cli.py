@@ -32,3 +32,10 @@ def test_timing_prints_the_planned_time_of_each_slide(tmp_path: Path, capsys: py
     output = capsys.readouterr().out
     assert "| Slide | Title | Target | Clock |" in output
     assert "Planned total 2:00" in output
+
+
+def test_the_cmyk_command_rewrites_the_colours_of_a_pdf(tmp_path):
+    source = tmp_path / "in.pdf"
+    source.write_bytes(b"0.0431372549 0.0705882353 0.1254901961 rg\n")
+    assert main(["cmyk", str(source), str(tmp_path / "out.pdf")]) == 0
+    assert (tmp_path / "out.pdf").read_bytes().startswith(b"0.7359 0.5679 0.2318 0.8367 k")

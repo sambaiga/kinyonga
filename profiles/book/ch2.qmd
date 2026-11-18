@@ -18,3 +18,9 @@ The print editions draw this box as a warning callout; the web edition styles it
 
 A remark box draws as a note callout in print.
 :::
+
+::: ark-concept
+[Key concept: one idea]{.ark-concept-title}
+
+The concept box is a note in print and a tinted box on the web.
+:::
