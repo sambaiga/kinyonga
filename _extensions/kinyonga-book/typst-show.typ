@@ -4,6 +4,7 @@
 // page numbers take it too.
 #set text(font: $if(brand.typography.base.family)$$brand.typography.base.family$$else$("Libre Franklin",)$endif$, size: 10pt)
 #show link: set text(fill: brand-color.primary)
+#show raw: set text(font: $if(brand.typography.monospace.family)$$brand.typography.monospace.family$$else$("JetBrains Mono",)$endif$)
 
 
 #show: book.with(

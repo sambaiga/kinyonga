@@ -4,7 +4,8 @@
 # one format per base format. brand.yml, tokens/, shared/, fonts/ and assets/ here are copies written by `kinyonga
 # sync`; never edit them. The Typst format follows the structure of the bundled orange-book extension (MIT, with its
 # Typst package and marginalia, Unlicense, vendored in typst/), which Quarto needs to merge the chapters into one
-# book; the colour comes from brand.yml. The HTML theme reads colours only from tokens/.
+# book; the colour comes from brand.yml. The HTML theme reads colours only from tokens/. The extension does not set the
+# project brand: a book names its own in _quarto.yml (`project: brand:`), so an existing book keeps its own logo.
 
 title: kinyonga book
 author: sambaiga
@@ -12,10 +13,6 @@ version: 0.1.0
 quarto-required: ">=1.9.17"
 
 contributes:
-  metadata:
-    project:
-      brand: brand.yml
-
   formats:
     typst:
       papersize: a4
@@ -27,6 +24,8 @@ contributes:
         - page.typ
         - typst-show.typ
       filters:
+        - path: filters/boxes.lua
+          at: pre-quarto
         - path: orange-book.lua
           at: post-quarto
       format-resources:
@@ -38,6 +37,8 @@ contributes:
         - fonts/LibreFranklin-Italic.ttf
         - fonts/LibreFranklin-SemiBold.ttf
         - fonts/LibreFranklin-SemiBoldItalic.ttf
+        - fonts/JetBrainsMono-Regular.ttf
+        - fonts/JetBrainsMono-Bold.ttf
         - assets/logo.svg
         - assets/logo-dark.svg
         - assets/mark.svg
@@ -68,6 +69,9 @@ contributes:
         - left=2.6cm
         - right=2.6cm
       keep-tex: true
+      filters:
+        - path: filters/boxes.lua
+          at: pre-quarto
       include-in-header:
         - tokens/colors.tex
         - latex/fonts.tex
@@ -86,6 +90,8 @@ contributes:
         - fonts/LibreFranklin-Italic.ttf
         - fonts/LibreFranklin-SemiBold.ttf
         - fonts/LibreFranklin-SemiBoldItalic.ttf
+        - fonts/JetBrainsMono-Regular.ttf
+        - fonts/JetBrainsMono-Bold.ttf
         - assets/logo.svg
         - assets/logo-dark.svg
         - assets/mark.svg
@@ -93,11 +99,12 @@ contributes:
     html:
       theme:
         light:
+          - cosmo
           - brand
           - scss/kinyonga-book.scss
         dark:
+          - darkly
           - brand
-          - scss/kinyonga-book.scss
           - scss/kinyonga-book-dark.scss
       toc: true
       number-sections: true
@@ -110,6 +117,8 @@ contributes:
         - fonts/LibreFranklin-Italic.ttf
         - fonts/LibreFranklin-SemiBold.ttf
         - fonts/LibreFranklin-SemiBoldItalic.ttf
+        - fonts/JetBrainsMono-Regular.ttf
+        - fonts/JetBrainsMono-Bold.ttf
         - assets/logo.svg
         - assets/logo-dark.svg
         - assets/mark.svg

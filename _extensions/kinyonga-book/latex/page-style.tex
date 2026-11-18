@@ -148,3 +148,21 @@
 
 % Links, citations and contents entries in the brand blue, not hyperref's default red.
 \AtBeginDocument{\hypersetup{linkcolor=knBlue, citecolor=knBlue, urlcolor=knBlue, filecolor=knBlue}}
+
+% The contents list in ink, not in the link colour: its entries are links, and blue entries read as a page of hyperlinks.
+\usepackage{etoolbox}
+\pretocmd{\tableofcontents}{\hypersetup{linkcolor=knInk}}{}{}
+\apptocmd{\tableofcontents}{\hypersetup{linkcolor=knBlue}}{}{}
+
+% A box of a book (remark, pitfall, key concept ...): a tinted block with a coloured left edge and a title in the heading
+% font. The title is set inside the box, as on the web, where it sits on the same tint as the text.
+\usepackage{tcolorbox}
+\tcbuselibrary{skins, breakable}
+\newtcolorbox{knbox}[4]{%
+  breakable, enhanced, sharp corners,
+  colback=#2, colframe=#2, boxrule=0pt,
+  borderline west={3.5pt}{0pt}{#1},
+  left=11pt, right=11pt, top=9pt, bottom=9pt,
+  before skip=10pt, after skip=10pt,
+  before upper={{\bkHeadingFont\bfseries\color{#3}#4\par}\vspace{5pt}},
+}

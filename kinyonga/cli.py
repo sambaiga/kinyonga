@@ -1,10 +1,11 @@
-"""The ``kinyonga`` command: new, sync and check."""
+"""The ``kinyonga`` command: new, sync, check, timing and cmyk."""
 
 import argparse
 from collections.abc import Sequence
 from pathlib import Path
 import sys
 
+from .cmyk import convert as to_cmyk_pdf
 from .generate import PROFILES, Project, new_project
 from .notes import format_clock, load_deck, timing_table, total_seconds
 from .sync import main as sync_main
@@ -30,6 +31,11 @@ def build_parser() -> argparse.ArgumentParser:
     timing = commands.add_parser("timing", help="print the planned time of each slide of a deck")
     timing.add_argument("deck", type=Path)
     timing.add_argument("--unnumbered", type=int, default=1, help="slides at the start without a number")
+    press = commands.add_parser(
+        "cmyk", help="rewrite the RGB colours of an uncompressed PDF as CMYK, in place of length"
+    )
+    press.add_argument("source", type=Path)
+    press.add_argument("output", type=Path)
     for name, text in (
         ("sync", "write the tokens and brand copies"),
         ("check", "check brand, tokens, fonts, contrast"),
@@ -59,5 +65,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         sys.stdout.write(
             f"{timing_table(slides, args.unnumbered)}\n\nPlanned total {format_clock(total_seconds(slides))}\n"
         )
+        return 0
+    if args.command == "cmyk":
+        args.output.write_bytes(to_cmyk_pdf(args.source.read_bytes()))
+        sys.stdout.write(f"Wrote {args.output}\n")
         return 0
     return sync_main([args.command, "--project", str(args.project)])

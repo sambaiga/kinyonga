@@ -9,3 +9,4 @@
 | Bootstrap Icons (font, as a stylesheet with the font inlined) | MIT | `_extensions/kinyonga-slides/bootstrap-icons/bootstrap-icons.min.css` |
 | orange-book Typst template and its Lua filter (the structure Quarto needs to merge a Typst book) | MIT | `_extensions/kinyonga-book/` (`typst-show.typ`, `numbering.typ`, `page.typ`, `orange-book.lua`, `typst/packages/preview/orange-book`); patched: chapters and parts start on the next page, not the next odd page, so the review edition has no blank pages |
 | marginalia Typst package | Unlicense | `_extensions/kinyonga-book/typst/packages/preview/marginalia` |
+| JetBrains Mono (code font) | SIL Open Font License 1.1 | `fonts/JetBrainsMono-*.ttf` (Regular, Bold), `OFL-JetBrainsMono.txt`; copied into each extension |

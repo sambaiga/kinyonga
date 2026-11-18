@@ -6,3 +6,21 @@ Chapter two refers back to @sec-first and shows a warning.
 ## Limit
 Say here what the method cannot do.
 :::
+
+::: pitfall
+[Pitfall: a box without its title]{.pitfall-title}
+
+The print editions draw this box as a warning callout; the web edition styles it with CSS.
+:::
+
+::: remarkbox
+[Remark: a short aside]{.remark-title}
+
+A remark box draws as a note callout in print.
+:::
+
+::: ark-concept
+[Key concept: one idea]{.ark-concept-title}
+
+The concept box is a note in print and a tinted box on the web.
+:::

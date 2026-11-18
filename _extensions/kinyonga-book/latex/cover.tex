@@ -10,6 +10,11 @@
 \AddToShipoutPictureBG*{%
   \begin{tikzpicture}[remember picture, overlay]
     \fill[knInk] (current page.south west) rectangle (current page.north east);
+    % An optional full-bleed cover picture: put a PDF at assets/cover.pdf in the project.
+    \IfFileExists{assets/cover.pdf}{%
+      \node[anchor=south west, inner sep=0pt] at (current page.south west) {%
+        \includegraphics[width=\paperwidth, height=\paperheight]{assets/cover.pdf}};
+    }{}
   \end{tikzpicture}%
 }
 \begin{tikzpicture}[remember picture, overlay]
@@ -17,13 +22,13 @@
   \node[anchor=north west, xshift=2.6cm, yshift=-2.4cm] at (current page.north west) {%
     \begin{minipage}{15.8cm}
       \raggedright
-      {\color{knOrange}\rule{2.2cm}{2.5pt}}\par
+      {\color{knSkyBright}\rule{2.2cm}{2.5pt}}\par
       \vspace{22pt}
       {\bkCoverFont\fontsize{40}{45}\selectfont\color{white}\@title}\par
       \vspace{12pt}
       % \rmfamily, not \bkHeadingFont: the heading family is pinned to its
       % weight through a RawFeature axis, so anything set in it arrives at 600.
-      {\rmfamily\fontsize{14}{18}\selectfont\color{knOrange}\@subtitle}\par
+      {\rmfamily\fontsize{14}{18}\selectfont\color{knSkyBright}\@subtitle}\par
     \end{minipage}};
   % Author on the ground below the street; the site on the right.
   \node[anchor=south west, xshift=2.6cm, yshift=1.0cm] at (current page.south west) {%

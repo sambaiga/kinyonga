@@ -45,6 +45,8 @@ contributes:
         - fonts/LibreFranklin-Italic.ttf
         - fonts/LibreFranklin-SemiBold.ttf
         - fonts/LibreFranklin-SemiBoldItalic.ttf
+        - fonts/JetBrainsMono-Regular.ttf
+        - fonts/JetBrainsMono-Bold.ttf
 
     html:
       theme:
@@ -73,3 +75,5 @@ contributes:
         - fonts/LibreFranklin-Italic.ttf
         - fonts/LibreFranklin-SemiBold.ttf
         - fonts/LibreFranklin-SemiBoldItalic.ttf
+        - fonts/JetBrainsMono-Regular.ttf
+        - fonts/JetBrainsMono-Bold.ttf
