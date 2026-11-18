@@ -17,7 +17,7 @@ cd my-letter && uv sync && make check && make all
 | `letter` | A letterhead letter in Typst; sender and contact line from `profile.yml` | ready |
 | `cv` | An ATS-friendly CV from `cv.yml`: a tagged PDF that validates as PDF/UA (Typst) and an HTML page; `make ats` for an edition with spelled-out labels and no icons | ready |
 | `slides` | A reveal.js deck in the brand: cover, dividers, cards, key numbers, takeaway bar, tables; `make timing` adds up the `[m:ss]` marks of the speaker notes. The click-by-click PDF and the phone remote stay in `slides-template` (`slides clicks`, `slides remote`) and work on the rendered deck | ready |
-| `book` | A book with chapters, figures, tables, equations, callouts and a bibliography in three editions: web (HTML), print (LaTeX with lualatex: cover, contents, running heads, back page) and a fast Typst review edition. `make book` renders the web and print editions, `make review` the Typst one. Print needs a LaTeX engine (`uv run quarto install tinytex`) | ready |
+| `book` | A book with chapters, figures, tables, equations, callouts and a bibliography in three editions: web (HTML), print (LaTeX with lualatex: cover, contents, running heads, back page) and a fast Typst review edition. `make book` renders the web and print editions, `make review` the Typst one. Print needs a LaTeX engine (`uv run quarto install tinytex`) and `rsvg-convert` (librsvg) for SVG figures | ready |
 
 ## What every project gets
 

@@ -1,6 +1,6 @@
 # Extra targets of the book profile, included by the Makefile.
 
-book:  ## Render the web edition (HTML) and the print edition (LaTeX, needs lualatex)
+book:  ## Render the web edition (HTML) and the print edition (LaTeX: needs TinyTeX and rsvg-convert)
 	$(QUARTO) render
 
 review:  ## Render the fast Typst edition into rendered_review
