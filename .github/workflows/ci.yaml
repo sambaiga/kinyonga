@@ -99,6 +99,10 @@ jobs:
         run: uv sync --locked
       - name: Install veraPDF, which validates the CV PDF as PDF/UA
         run: uv run quarto install verapdf --no-prompt
+      - name: Install poppler (pdffonts, pdftotext) for the PDF checks
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends poppler-utils
+      - name: Install TinyTeX, which prints the LaTeX edition of the book
+        run: uv run quarto install tinytex --no-prompt
       - name: Generate each profile, render it and check the output
         run: make verify
         env:

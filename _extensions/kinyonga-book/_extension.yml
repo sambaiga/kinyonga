@@ -1,4 +1,4 @@
-# kinyonga book: a Quarto book in the kinyonga brand, as a web edition (HTML) and a print edition (Typst).
+# kinyonga book: a Quarto book in the kinyonga brand, as a web edition (HTML) and two print editions: a LaTeX one (lualatex, scrbook) and a Typst one.
 #
 # One extension per document kind: Quarto splits `kinyonga-book-typst` at the last hyphen, so an extension can give
 # one format per base format. brand.yml, tokens/, shared/, fonts/ and assets/ here are copies written by `kinyonga
@@ -29,6 +29,54 @@ contributes:
       filters:
         - path: orange-book.lua
           at: post-quarto
+      format-resources:
+        - fonts/Jost-Regular.ttf
+        - fonts/Jost-SemiBold.ttf
+        - fonts/Jost-Bold.ttf
+        - fonts/LibreFranklin-Regular.ttf
+        - fonts/LibreFranklin-Medium.ttf
+        - fonts/LibreFranklin-Italic.ttf
+        - fonts/LibreFranklin-SemiBold.ttf
+        - fonts/LibreFranklin-SemiBoldItalic.ttf
+        - assets/logo.svg
+        - assets/logo-dark.svg
+        - assets/mark.svg
+
+    pdf:
+      pdf-engine: lualatex
+      documentclass: scrbook
+      classoption:
+        - oneside
+        - open=any
+      papersize: a4
+      fontsize: 10pt
+      linestretch: 1.15
+      colorlinks: true
+      block-headings: false
+      number-sections: true
+      toc: true
+      toc-depth: 2
+      fig-align: center
+      fig-cap-location: bottom
+      tbl-cap-location: bottom
+      code-overflow: wrap
+      highlight-style: github
+      date-format: "D MMMM YYYY"
+      geometry:
+        - top=2.4cm
+        - bottom=2.4cm
+        - left=2.6cm
+        - right=2.6cm
+      keep-tex: true
+      include-in-header:
+        - tokens/colors.tex
+        - latex/fonts.tex
+        - latex/typography.tex
+        - latex/page-style.tex
+      include-before-body:
+        - latex/cover.tex
+      include-after-body:
+        - latex/back-page.tex
       format-resources:
         - fonts/Jost-Regular.ttf
         - fonts/Jost-SemiBold.ttf
