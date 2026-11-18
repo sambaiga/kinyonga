@@ -4,7 +4,8 @@
 # one format per base format. brand.yml, tokens/, shared/, fonts/ and assets/ here are copies written by `kinyonga
 # sync`; never edit them. The Typst format follows the structure of the bundled orange-book extension (MIT, with its
 # Typst package and marginalia, Unlicense, vendored in typst/), which Quarto needs to merge the chapters into one
-# book; the colour comes from brand.yml. The HTML theme reads colours only from tokens/.
+# book; the colour comes from brand.yml. The HTML theme reads colours only from tokens/. The extension does not set the
+# project brand: a book names its own in _quarto.yml (`project: brand:`), so an existing book keeps its own logo.
 
 title: kinyonga book
 author: sambaiga
@@ -12,10 +13,6 @@ version: 0.1.0
 quarto-required: ">=1.9.17"
 
 contributes:
-  metadata:
-    project:
-      brand: brand.yml
-
   formats:
     typst:
       papersize: a4
