@@ -6,7 +6,6 @@
 % title, subtitle and author of the book.
 \makeatletter
 \xdef\booktitle{\@title}
-\makeatother
 \IfFileExists{assets/cover-full.pdf}{%
   \begin{titlepage}
   \thispagestyle{bkcover}
@@ -15,10 +14,7 @@
   \null
   \end{titlepage}
 }{%
-\makeatletter
 \providecommand{\@subtitle}{}
-
-\xdef\booktitle{\@title}
 \begin{titlepage}
 \thispagestyle{bkcover}
 \AddToShipoutPictureBG*{%
@@ -54,5 +50,5 @@
     {\rmfamily\fontsize{8.5}{10}\selectfont\color{white!60}\bookweb}};
 \end{tikzpicture}
 \end{titlepage}
-\makeatother
 }
+\makeatother
