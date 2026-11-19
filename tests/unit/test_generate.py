@@ -84,3 +84,10 @@ def test_a_new_book_project_has_chapters_the_book_extension_and_shared_component
     assert (created / "_extensions" / "kinyonga-book" / "shared" / "_components.scss").is_file()
     assert (created / "_extensions" / "kinyonga-book" / "tokens" / "colors.typ").is_file()
     assert check_project(created) == []
+
+
+def test_the_latex_cover_shows_a_finished_cover_alone_when_one_is_supplied(tmp_path: Path):
+    created = new_project(Project("my-book", "book", author="A. Writer"), tmp_path / "my-book", git=False)
+    cover = (created / "_extensions" / "kinyonga-book" / "latex" / "cover.tex").read_text(encoding="utf-8")
+    assert "assets/cover-full.pdf" in cover
+    assert cover.count("{") == cover.count("}")
